@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLPT 단어 학습 — 言の葉 코토노하</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/jlpt.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-jp">言の葉</span>
+    <span class="logo-kr">코토노하</span>
+  </a>
+  <nav>
+    <a href="index.html">홈</a>
+    <a href="kana.html">가나</a>
+    <a href="jlpt.html" class="active">JLPT</a>
+    <a href="kanji.html">한자</a>
+    <a href="player.html">가사 학습</a>
+  </nav>
+</header>
+
+<div class="page-header">
+  <h1>JLPT 단어 학습</h1>
+  <p>N5부터 N1까지 급수별 필수 어휘 — 단어에 마우스를 올려 즐겨찾기하세요</p>
+</div>
+
+<div class="level-tabs" id="levelTabs">
+  <button class="level-tab active" data-level="N5" onclick="switchLevel('N5')">N5 입문</button>
+  <button class="level-tab" data-level="N4" onclick="switchLevel('N4')">N4 초급</button>
+  <button class="level-tab" data-level="N3" onclick="switchLevel('N3')">N3 중급</button>
+  <button class="level-tab" data-level="N2" onclick="switchLevel('N2')">N2 중상급</button>
+  <button class="level-tab" data-level="N1" onclick="switchLevel('N1')">N1 상급</button>
+</div>
+
+<div class="container">
+  <!-- Today's word -->
+  <div class="today-highlight" id="todayHighlight"></div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <input type="text" class="search-input" id="searchInput" placeholder="단어 검색..." oninput="filterWords()">
+    <select class="filter-select" id="posFilter" onchange="filterWords()">
+      <option value="">품사 전체</option>
+      <option value="명사">명사</option>
+      <option value="동사">동사</option>
+      <option value="형용사">형용사</option>
+      <option value="부사">부사</option>
+    </select>
+    <span class="stats-pill" id="wordCountPill">0개</span>
+  </div>
+
+  <!-- Word grid -->
+  <div class="word-grid" id="wordGrid"></div>
+  <button class="load-more" id="loadMoreBtn" onclick="loadMore()" style="display:none">더 보기 →</button>
+</div>
+
+<script src="scripts/jlptDB.js"></script>
+<script src="scripts/jlpt.js"></script>
+</body>
+</html>

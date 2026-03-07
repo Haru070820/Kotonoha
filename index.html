@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>言の葉 코토노하 — J-POP으로 배우는 일본어</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-jp">言の葉</span>
+    <span class="logo-kr">코토노하</span>
+  </a>
+  <nav>
+    <a href="index.html" class="active">홈</a>
+    <a href="kana.html">가나</a>
+    <a href="jlpt.html">JLPT</a>
+    <a href="kanji.html">한자</a>
+    <a href="player.html">가사 학습</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>J-POP으로 배우는</h2>
+  <h1>日本語 学習</h1>
+  <p>좋아하는 노래 가사를 분석하며 자연스럽게 일본어를 익혀보세요. 단어 뜻과 발음을 바로 확인하고, 즐겨찾기로 나만의 단어장을 만들 수 있어요.</p>
+</section>
+
+<!-- Today's Word Banner -->
+<div class="today-banner-wrap">
+  <div class="today-banner" onclick="location.href='jlpt.html'">
+    <div>
+      <div class="today-label">오늘의 단어 TODAY'S WORD</div>
+      <div class="today-word" id="todayWord">美しい</div>
+      <div class="today-reading" id="todayReading">うつくしい · utsukushii</div>
+    </div>
+    <div>
+      <div class="today-meaning" id="todayMeaning">아름답다, 예쁘다</div>
+      <div style="margin-top:8px; text-align:right"><span class="today-level" id="todayLevel">N3</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-box clickable" onclick="openFavModal()">
+      <div class="stat-num" id="favCount">0</div>
+      <div class="stat-label">즐겨찾기 단어</div>
+    </div>
+    <div class="stat-box clickable" onclick="openKanjiModal()">
+      <div class="stat-num" id="kanjiCount">0</div>
+      <div class="stat-label">학습 완료 한자</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">46</div>
+      <div class="stat-label">히라가나 / 가타카나</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">2136</div>
+      <div class="stat-label">상용한자 전체</div>
+    </div>
+  </div>
+
+  <!-- Sections -->
+  <div class="section">
+    <div class="section-title">음악으로 배우기 <span class="en">Learn through Music</span></div>
+    <div class="song-list">
+      <a href="player.html?song=1" class="song-item">
+        <span class="song-num">01</span>
+        <div class="song-info">
+          <div class="song-title">猫 (고양이)</div>
+          <div class="song-artist">DISH//</div>
+        </div>
+        <span class="song-tag">추천</span>
+      </a>
+      <a href="player.html?song=2" class="song-item">
+        <span class="song-num">02</span>
+        <div class="song-info">
+          <div class="song-title">さよならモルテン (안녕 모르텐)</div>
+          <div class="song-artist">Yorushika</div>
+        </div>
+        <span class="song-tag">추천</span>
+      </a>
+      <a href="player.html?song=3" class="song-item">
+        <span class="song-num">03</span>
+        <div class="song-info">
+          <div class="song-title">カメレオン (카멜레온)</div>
+          <div class="song-artist">King Gnu</div>
+        </div>
+        <span class="song-tag">인기</span>
+      </a>
+      <a href="player.html?song=4" class="song-item">
+        <span class="song-num">04</span>
+        <div class="song-info">
+          <div class="song-title">ヒッチコック (히치콕)</div>
+          <div class="song-artist">Yorushika</div>
+        </div>
+        <span class="song-tag">추천</span>
+      </a>
+      <a href="player.html?song=5" class="song-item">
+        <span class="song-num">05</span>
+        <div class="song-info">
+          <div class="song-title">沈丁花 (서향꽃)</div>
+          <div class="song-artist">DISH//</div>
+        </div>
+        <span class="song-tag">신규</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">학습 메뉴 <span class="en">Study Menu</span></div>
+    <div class="card-grid">
+      <a href="kana.html" class="card card-kana">
+        <div class="card-icon">あア</div>
+        <div class="card-title">히라가나 &amp; 가타카나</div>
+        <div class="card-desc">50음도표와 함께 기초 문자를 익혀보세요</div>
+      </a>
+      <a href="jlpt.html" class="card card-jlpt">
+        <div class="card-icon">📚</div>
+        <div class="card-title">JLPT 단어 학습</div>
+        <div class="card-desc">N5부터 N1까지 급수별 필수 단어를 암기하세요</div>
+        <span class="card-badge">N5~N1</span>
+      </a>
+      <a href="kanji.html" class="card card-kanji">
+        <div class="card-icon">字</div>
+        <div class="card-title">상용한자 2136자</div>
+        <div class="card-desc">JLPT 급수별 한자를 학습하고 완료 체크하세요</div>
+        <span class="card-badge">2136字</span>
+      </a>
+      <a href="player.html" class="card card-music">
+        <div class="card-icon">🎵</div>
+        <div class="card-title">J-POP 가사 학습</div>
+        <div class="card-desc">노래 가사에서 단어를 찾고 즐겨찾기로 저장하세요</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Favorites Modal -->
+<div class="modal-overlay" id="favModal" onclick="if(event.target===this)closeModal('favModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">★ 즐겨찾기 단어</div>
+      <button class="modal-close" onclick="closeModal('favModal')">✕</button>
+    </div>
+    <div class="modal-body" id="favModalBody"></div>
+  </div>
+</div>
+
+<!-- Kanji Modal -->
+<div class="modal-overlay" id="kanjiModal" onclick="if(event.target===this)closeModal('kanjiModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✓ 학습 완료 한자</div>
+      <button class="modal-close" onclick="closeModal('kanjiModal')">✕</button>
+    </div>
+    <div class="modal-body" id="kanjiModalBody"></div>
+  </div>
+</div>
+
+<script src="scripts/index.js"></script>
+</body>
+</html>

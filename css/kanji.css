@@ -1,0 +1,190 @@
+/* =============================================
+   kanji.css — 상용한자 학습 페이지 전용 스타일
+   ============================================= */
+
+--done-color: #27ae60;
+
+/* ── 진행 바 ── */
+.progress-section {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+}
+.progress-inner { max-width: 1100px; margin: 0 auto; }
+.progress-stats {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.prog-stat { text-align: center; }
+.prog-num {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+.prog-label { font-size: 0.72rem; color: var(--muted); }
+.progress-bar-wrap { flex: 1; min-width: 200px; }
+.progress-bar-bg {
+  background: var(--border);
+  border-radius: 20px;
+  height: 10px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg, var(--accent-gold), #e8b84b);
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.5s ease;
+}
+.progress-pct { font-size: 0.78rem; color: var(--muted); margin-top: 4px; text-align: right; }
+
+/* ── 컨트롤 바 ── */
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-btn {
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.filter-btn.active { background: var(--ink); color: var(--accent-gold); border-color: var(--ink); }
+.count-pill {
+  background: var(--paper-warm);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ── 한자 그리드 ── */
+.kanji-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+.kanji-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.kanji-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+.kanji-card.done { background: rgba(39,174,96,0.06); border-color: #27ae60; }
+.kanji-char {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.kanji-card.done .kanji-char { color: #27ae60; }
+.kanji-on { font-size: 0.65rem; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+.kanji-done-mark {
+  position: absolute;
+  top: 6px; right: 6px;
+  font-size: 0.75rem;
+  color: #27ae60;
+  opacity: 0;
+}
+.kanji-card.done .kanji-done-mark { opacity: 1; }
+
+/* ── 상세 패널 ── */
+.detail-panel {
+  display: none;
+  position: fixed;
+  right: 0; top: 60px; bottom: 0;
+  width: 340px;
+  background: #fff;
+  border-left: 1px solid var(--border);
+  z-index: 150;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.08);
+}
+.detail-panel.open { display: block; }
+.dp-close { float: right; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted); }
+.dp-char {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: center;
+  display: block;
+  margin: 16px 0;
+}
+.dp-section { margin-bottom: 16px; }
+.dp-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.dp-value { font-size: 0.9rem; color: var(--ink); font-family: 'Noto Sans JP', sans-serif; }
+.dp-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.dp-done-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #27ae60;
+  background: none;
+  color: #27ae60;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+.dp-done-btn:hover,
+.dp-done-btn.active { background: #27ae60; color: #fff; }
+.dp-level-badge {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+/* ── 페이지네이션 ── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.page-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.page-btn:hover { background: var(--paper-warm); }
+.page-btn.active { background: var(--ink); color: var(--accent-gold); border-color: var(--ink); }

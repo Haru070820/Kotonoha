@@ -1,0 +1,131 @@
+/* =============================================
+   jlpt.css — JLPT 단어 학습 페이지 전용 스타일
+   ============================================= */
+
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.stats-pill {
+  background: var(--ink);
+  color: var(--accent-gold);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* ── 단어 카드 그리드 ── */
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.word-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all 0.2s;
+  position: relative;
+  border-left: 4px solid var(--level-color, var(--border));
+}
+.word-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.wc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.wc-word {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+.wc-kanji { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.wc-fav {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  color: var(--muted);
+}
+.wc-fav.on {
+  background: rgba(212,160,23,0.1);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+.wc-reading {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.wc-divider { height: 1px; background: var(--border); margin-bottom: 10px; }
+.wc-meaning { font-size: 0.85rem; color: var(--ink); line-height: 1.6; }
+.wc-pos {
+  font-size: 0.7rem;
+  background: var(--paper-warm);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+/* ── 오늘의 단어 하이라이트 ── */
+.today-highlight {
+  background: linear-gradient(135deg, rgba(212,160,23,0.08) 0%, rgba(212,160,23,0.03) 100%);
+  border: 2px solid var(--accent-gold);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.today-badge {
+  background: var(--accent-gold);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.today-word {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+.today-info { flex: 1; }
+.today-reading { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+.today-meaning { font-size: 0.95rem; font-weight: 600; margin-top: 6px; }
+
+/* ── 더 보기 버튼 ── */
+.load-more {
+  width: 100%;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 16px;
+  transition: all 0.2s;
+}
+.load-more:hover { background: var(--paper-warm); color: var(--ink); }

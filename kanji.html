@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상용한자 2136자 — 言の葉 코토노하</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/kanji.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-jp">言の葉</span>
+    <span class="logo-kr">코토노하</span>
+  </a>
+  <nav>
+    <a href="index.html">홈</a>
+    <a href="kana.html">가나</a>
+    <a href="jlpt.html">JLPT</a>
+    <a href="kanji.html" class="active">한자</a>
+    <a href="player.html">가사 학습</a>
+  </nav>
+</header>
+
+<div class="page-header">
+  <h1>常用漢字 2136字</h1>
+  <p>일본 상용한자 2136자 — JLPT 급수별로 학습하고 완료 체크하세요</p>
+</div>
+
+<!-- Progress -->
+<div class="progress-section">
+  <div class="progress-inner">
+    <div class="progress-stats">
+      <div class="prog-stat">
+        <div class="prog-num" id="doneCount">0</div>
+        <div class="prog-label">학습 완료</div>
+      </div>
+      <div class="prog-stat">
+        <div class="prog-num" id="totalCount">2136</div>
+        <div class="prog-label">전체</div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div class="progress-pct" id="progressPct">0% 완료</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="level-tabs">
+  <button class="level-tab active" data-level="N5" style="--tab-color:var(--n5)" onclick="switchLevel('N5')">N5 · 108字</button>
+  <button class="level-tab" data-level="N4" style="--tab-color:var(--n4)" onclick="switchLevel('N4')">N4 · 29字</button>
+  <button class="level-tab" data-level="N3" style="--tab-color:var(--n3)" onclick="switchLevel('N3')">N3 · 29字</button>
+  <button class="level-tab" data-level="N2" style="--tab-color:var(--n2)" onclick="switchLevel('N2')">N2 · 27字</button>
+  <button class="level-tab" data-level="N1" style="--tab-color:var(--n1)" onclick="switchLevel('N1')">N1 · 30字</button>
+</div>
+
+<div class="container">
+  <div class="controls">
+    <input type="text" class="search-input" id="searchInput" placeholder="한자 또는 읽기 검색..." oninput="filterKanji()">
+    <button class="filter-btn" id="filterAll" onclick="setFilter('all')">전체</button>
+    <button class="filter-btn" id="filterUndone" onclick="setFilter('undone')">미완료만</button>
+    <button class="filter-btn" id="filterDone" onclick="setFilter('done')">완료만</button>
+    <span class="count-pill" id="countPill">0字</span>
+  </div>
+  <div class="kanji-grid" id="kanjiGrid"></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-panel" id="detailPanel">
+  <button class="dp-close" onclick="closeDetail()">✕</button>
+  <div style="clear:both"></div>
+  <span class="dp-char" id="dpChar"></span>
+  <div style="text-align:center">
+    <span class="dp-level-badge" id="dpLevel"></span>
+  </div>
+  <div class="dp-section">
+    <div class="dp-label">음독 (音読み)</div>
+    <div class="dp-value" id="dpOn"></div>
+  </div>
+  <div class="dp-section">
+    <div class="dp-label">훈독 (訓読み)</div>
+    <div class="dp-value" id="dpKun"></div>
+  </div>
+  <div class="dp-section">
+    <div class="dp-label">한국어 독음 (韓国語読み)</div>
+    <div class="dp-value" id="dpKr" style="color:#a08060;font-family:'Noto Sans KR',sans-serif;font-size:1rem;font-weight:600"></div>
+  </div>
+  <div class="dp-divider"></div>
+  <div class="dp-section">
+    <div class="dp-label">뜻 · 의미</div>
+    <div class="dp-value" id="dpMeaning"></div>
+  </div>
+  <div class="dp-divider"></div>
+  <button class="dp-done-btn" id="dpDoneBtn" onclick="toggleDoneFromPanel()">✓ 학습 완료 체크</button>
+</div>
+
+<script src="scripts/kanjiDB.js"></script>
+<script src="scripts/kanji.js"></script>
+</body>
+</html>

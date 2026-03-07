@@ -1,0 +1,187 @@
+/* =============================================
+   common.css — 言の葉 코토노하 공용 스타일
+   폰트 · CSS 변수 · 헤더 · 네비 · 반응형
+   ============================================= */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap');
+
+/* CSS 변수 */
+:root {
+  --ink: #1a1a2e;
+  --ink-light: #2d2d4e;
+  --paper: #faf8f4;
+  --paper-warm: #f5f0e8;
+  --accent-red: #c0392b;
+  --accent-gold: #d4a017;
+  --accent-green: #2D5A27;
+  --accent-blue: #1a5276;
+  --muted: #7f8c8d;
+  --border: #e0d8cc;
+  --hover-bg: rgba(212,160,23,0.08);
+  /* JLPT 레벨 색상 */
+  --n5: #27ae60;
+  --n4: #2980b9;
+  --n3: #8e44ad;
+  --n2: #e67e22;
+  --n1: #c0392b;
+}
+
+/* 리셋 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── 헤더 ── */
+header {
+  background: var(--ink);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.logo-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+}
+.logo-kr {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.35em;
+}
+
+/* ── 네비게이션 ── */
+nav { display: flex; gap: 4px; }
+nav a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+nav a:hover,
+nav a.active {
+  background: rgba(212,160,23,0.2);
+  color: var(--accent-gold);
+}
+
+/* ── 페이지 공통 헤더 (각 페이지 상단 타이틀 영역) ── */
+.page-header {
+  background: var(--ink);
+  padding: 48px 24px 40px;
+  text-align: center;
+}
+.page-header h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.page-header p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.9rem;
+}
+
+/* ── 레벨 탭 (jlpt, kanji 공용) ── */
+.level-tabs {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  padding: 0 24px;
+  gap: 0;
+  overflow-x: auto;
+  position: sticky;
+  top: 60px;
+  z-index: 90;
+}
+.level-tab {
+  padding: 14px 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.level-tab.active {
+  border-bottom-color: var(--tab-color, var(--accent-gold));
+  color: var(--tab-color, var(--ink));
+}
+.level-tab[data-level="N5"] { --tab-color: var(--n5); }
+.level-tab[data-level="N4"] { --tab-color: var(--n4); }
+.level-tab[data-level="N3"] { --tab-color: var(--n3); }
+.level-tab[data-level="N2"] { --tab-color: var(--n2); }
+.level-tab[data-level="N1"] { --tab-color: var(--n1); }
+
+/* ── 공용 컨테이너 ── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* ── 검색 인풋 / 필터 셀렉트 ── */
+.search-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+.search-input:focus { border-color: var(--accent-gold); }
+
+.filter-select {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 900px) {
+  .container { padding: 24px 16px; }
+}
+@media (max-width: 600px) {
+  header { padding: 0 16px; }
+  .logo-jp { font-size: 1.3rem; }
+  nav a { font-size: 0.75rem; padding: 6px 8px; }
+  .page-header h1 { font-size: 1.7rem; }
+  .page-header { padding: 32px 16px 28px; }
+}

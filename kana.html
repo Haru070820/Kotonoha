@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>히라가나 &amp; 가타카나 — 言の葉 코토노하</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/kana.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <span class="logo-jp">言の葉</span>
+    <span class="logo-kr">코토노하</span>
+  </a>
+  <nav>
+    <a href="index.html">홈</a>
+    <a href="kana.html" class="active">가나</a>
+    <a href="jlpt.html">JLPT</a>
+    <a href="kanji.html">한자</a>
+    <a href="player.html">가사 학습</a>
+  </nav>
+</header>
+
+<div class="page-header">
+  <h1>ひらがな・カタカナ</h1>
+  <p>히라가나와 가타카나 50음도표 — 클릭하면 자세히 볼 수 있어요</p>
+</div>
+
+<div class="container">
+  <div class="toggle-bar">
+    <button class="toggle-btn active" id="btn-hira" onclick="switchMode('hira')">ひらがな 히라가나</button>
+    <button class="toggle-btn" id="btn-kata" onclick="switchMode('kata')">カタカナ 가타카나</button>
+    <button class="toggle-btn" id="btn-both" onclick="switchMode('both')">나란히 보기</button>
+  </div>
+
+  <div id="kanaContent"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-kana" id="modalMain"></div>
+    <div class="modal-romaji" id="modalRomaji"></div>
+    <div class="modal-pair">
+      <div class="modal-pair-item">
+        <label>ひらがな</label>
+        <span id="modalHira"></span>
+      </div>
+      <div class="modal-pair-item">
+        <label>カタカナ</label>
+        <span id="modalKata"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/kana.js"></script>
+</body>
+</html>

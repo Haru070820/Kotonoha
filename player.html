@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가사 학습 — 言の葉 코토노하</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/player.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo"><span class="logo-jp">言の葉</span><span class="logo-kr">코토노하</span></a>
+  <nav>
+    <a href="index.html">홈</a><a href="kana.html">가나</a><a href="jlpt.html">JLPT</a><a href="kanji.html">한자</a>
+    <a href="player.html" class="active">가사 학습</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">SONG LIST · 곡 목록</div>
+    <div id="songList"></div>
+  </aside>
+  <main class="player-area">
+    <div class="song-header">
+      <h2 id="songTitle">노래를 선택해주세요</h2>
+      <p id="songArtist">← 왼쪽 목록에서 곡을 선택하세요</p>
+    </div>
+    <div class="fav-bar">
+      <span class="fav-bar-text">즐겨찾기 단어: <strong id="favCountDisplay">0</strong>개</span>
+      <button class="view-favs-btn" onclick="toggleFavPanel()">★ 즐겨찾기 보기</button>
+    </div>
+    <div class="lyrics-container" id="lyricsContainer">
+      <div class="empty-state"><div class="big">🎵</div><div>왼쪽에서 노래를 선택하면 가사가 표시됩니다</div><div style="margin-top:10px;font-size:0.8rem">단어에 <b>마우스를 올리면</b> 뜻 미리보기 · <b>클릭하면</b> 고정</div></div>
+    </div>
+  </main>
+</div>
+<div class="tooltip" id="tooltip">
+  <div class="tt-header">
+    <div><div class="tt-word" id="tt-word"></div><div class="tt-kanji" id="tt-kanji"></div></div>
+  </div>
+  <div class="tt-reading" id="tt-reading"></div>
+  <div class="tt-divider"></div>
+  <ul class="tt-meaning" id="tt-meaning"></ul>
+  <button class="tt-fav-btn" id="tt-fav-btn" onclick="toggleFavFromTooltip()">☆ 즐겨찾기</button>
+  <div class="tt-pin-hint" id="tt-pin-hint">클릭하면 고정됩니다</div>
+</div>
+<div class="fav-panel" id="favPanel">
+  <div class="fav-panel-title">★ 즐겨찾기 단어장<button class="close-panel" onclick="toggleFavPanel()">✕</button></div>
+  <div id="favList"></div>
+</div>
+<script src="scripts/wordDB.js"></script>
+<script src="scripts/songs.js"></script>
+<script src="scripts/player.js"></script>
+</body>
+</html>
