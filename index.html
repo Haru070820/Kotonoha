@@ -6,22 +6,51 @@
 <title>言の葉 코토노하 — J-POP으로 배우는 일본어</title>
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/index.css">
+<script>
+(function(){const s=JSON.parse(localStorage.getItem('kotonoha_settings')||'{}');if(s.darkMode)document.body.classList.add('dark');})();
+</script>
 </head>
 <body>
-
 <header>
-  <a href="index.html" class="logo">
-    <span class="logo-jp">言の葉</span>
-    <span class="logo-kr">코토노하</span>
-  </a>
+  <div class="header-left">
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-jp">言の葉</span>
+      <span class="logo-kr">kotonoha</span>
+    </a>
+  </div>
   <nav>
     <a href="index.html" class="active">홈</a>
-    <a href="kana.html">가나</a>
-    <a href="jlpt.html">JLPT</a>
-    <a href="kanji.html">한자</a>
-    <a href="player.html">가사 학습</a>
+    <a href="community.html">커뮤니티</a>
+    <a href="settings.html" style="padding:6px 10px;opacity:0.7;display:flex;align-items:center" title="설정"><span class="material-symbols-outlined">settings</span></a>
   </nav>
 </header>
+
+<!-- 사이드바 오버레이 -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- 슬라이드 사이드바 -->
+<div class="slide-sidebar" id="slideSidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <span class="sb-logo-jp">言の葉</span>
+      <span class="sb-logo-kr">kotonoha</span>
+    </div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <nav class="sb-nav">
+      <a href="index.html" class="active"><span class="sb-icon"><span class="material-symbols-outlined">home</span></span>홈</a>
+      <a href="kana.html"><span class="sb-icon"><span class="material-symbols-outlined">translate</span></span>가나</a>
+      <a href="jlpt.html"><span class="sb-icon"><span class="material-symbols-outlined">school</span></span>JLPT</a>
+      <a href="kanji.html"><span class="sb-icon"><span class="material-symbols-outlined">menu_book</span></span>한자</a>
+      <a href="player.html"><span class="sb-icon"><span class="material-symbols-outlined">music_note</span></span>가사 학습</a>
+      <div class="sb-divider"></div>
+      <a href="settings.html"><span class="sb-icon"><span class="material-symbols-outlined">settings</span></span>설정</a>
+  </nav>
+  <div class="sb-footer">言の葉 코토노하 v2</div>
+</div>
 
 <section class="hero">
   <h2>J-POP으로 배우는</h2>
@@ -29,7 +58,6 @@
   <p>좋아하는 노래 가사를 분석하며 자연스럽게 일본어를 익혀보세요. 단어 뜻과 발음을 바로 확인하고, 즐겨찾기로 나만의 단어장을 만들 수 있어요.</p>
 </section>
 
-<!-- Today's Word Banner -->
 <div class="today-banner-wrap">
   <div class="today-banner" onclick="location.href='jlpt.html'">
     <div>
@@ -39,132 +67,108 @@
     </div>
     <div>
       <div class="today-meaning" id="todayMeaning">아름답다, 예쁘다</div>
-      <div style="margin-top:8px; text-align:right"><span class="today-level" id="todayLevel">N3</span></div>
+      <div style="margin-top:8px;text-align:right"><span class="today-level" id="todayLevel">N3</span></div>
     </div>
   </div>
 </div>
 
 <div class="main-content">
-
-  <!-- Stats -->
   <div class="stats-bar">
     <div class="stat-box clickable" onclick="openFavModal()">
-      <div class="stat-num" id="favCount">0</div>
-      <div class="stat-label">즐겨찾기 단어</div>
+      <div class="stat-num" id="favCount">0</div><div class="stat-label">즐겨찾기 단어</div>
     </div>
     <div class="stat-box clickable" onclick="openKanjiModal()">
-      <div class="stat-num" id="kanjiCount">0</div>
-      <div class="stat-label">학습 완료 한자</div>
+      <div class="stat-num" id="kanjiCount">0</div><div class="stat-label">학습 완료 한자</div>
     </div>
-    <div class="stat-box">
-      <div class="stat-num">46</div>
-      <div class="stat-label">히라가나 / 가타카나</div>
+    <div class="stat-box clickable" onclick="location.href='player.html'">
+      <div class="stat-num" id="likedCount">0</div><div class="stat-label">좋아요 노래</div>
     </div>
-    <div class="stat-box">
-      <div class="stat-num">2136</div>
-      <div class="stat-label">상용한자 전체</div>
+    <div class="stat-box clickable" onclick="location.href='player.html'">
+      <div class="stat-num" id="bookmarkCount">0</div><div class="stat-label">북마크 노래</div>
     </div>
   </div>
 
-  <!-- Sections -->
   <div class="section">
     <div class="section-title">음악으로 배우기 <span class="en">Learn through Music</span></div>
-    <div class="song-list">
-      <a href="player.html?song=1" class="song-item">
-        <span class="song-num">01</span>
-        <div class="song-info">
-          <div class="song-title">猫 (고양이)</div>
-          <div class="song-artist">DISH//</div>
-        </div>
-        <span class="song-tag">추천</span>
-      </a>
-      <a href="player.html?song=2" class="song-item">
-        <span class="song-num">02</span>
-        <div class="song-info">
-          <div class="song-title">さよならモルテン (안녕 모르텐)</div>
-          <div class="song-artist">Yorushika</div>
-        </div>
-        <span class="song-tag">추천</span>
-      </a>
-      <a href="player.html?song=3" class="song-item">
-        <span class="song-num">03</span>
-        <div class="song-info">
-          <div class="song-title">カメレオン (카멜레온)</div>
-          <div class="song-artist">King Gnu</div>
-        </div>
-        <span class="song-tag">인기</span>
-      </a>
-      <a href="player.html?song=4" class="song-item">
-        <span class="song-num">04</span>
-        <div class="song-info">
-          <div class="song-title">ヒッチコック (히치콕)</div>
-          <div class="song-artist">Yorushika</div>
-        </div>
-        <span class="song-tag">추천</span>
-      </a>
-      <a href="player.html?song=5" class="song-item">
-        <span class="song-num">05</span>
-        <div class="song-info">
-          <div class="song-title">沈丁花 (서향꽃)</div>
-          <div class="song-artist">DISH//</div>
-        </div>
-        <span class="song-tag">신규</span>
-      </a>
+
+    <div class="song-search-wrap">
+      <span class="song-search-icon">🔍</span>
+      <input type="text" class="song-search-input" id="songSearchInput"
+        placeholder="노래 제목, 아티스트 검색…" oninput="filterSongs()">
     </div>
+    <div class="song-list" id="songListHome"></div>
+    <div class="song-no-result" id="songNoResult" style="display:none">검색 결과가 없어요 🎵</div>
+    <!-- 플레이어 바로가기 — 노래 목록 맨 아래 -->
+    <a href="player.html" class="song-item player-goto-item">
+      <span class="song-num" style="color:var(--accent-gold)">▶</span>
+      <div class="song-info">
+        <div class="song-title" style="color:var(--accent-gold)">가사 학습 플레이어</div>
+        <div class="song-artist">전체 노래 가사 학습하기</div>
+      </div>
+      <span class="song-tag" style="border-color:var(--accent-gold);color:var(--accent-gold)">이동</span>
+    </a>
   </div>
 
   <div class="section">
     <div class="section-title">학습 메뉴 <span class="en">Study Menu</span></div>
     <div class="card-grid">
       <a href="kana.html" class="card card-kana">
-        <div class="card-icon">あア</div>
-        <div class="card-title">히라가나 &amp; 가타카나</div>
+        <div class="card-icon"><span class="material-symbols-outlined" style="font-size:2rem">translate</span></div><div class="card-title">히라가나 &amp; 가타카나</div>
         <div class="card-desc">50음도표와 함께 기초 문자를 익혀보세요</div>
       </a>
       <a href="jlpt.html" class="card card-jlpt">
-        <div class="card-icon">📚</div>
-        <div class="card-title">JLPT 단어 학습</div>
+        <div class="card-icon"><span class="material-symbols-outlined" style="font-size:2rem">school</span></div><div class="card-title">JLPT 단어 학습</div>
         <div class="card-desc">N5부터 N1까지 급수별 필수 단어를 암기하세요</div>
         <span class="card-badge">N5~N1</span>
       </a>
       <a href="kanji.html" class="card card-kanji">
-        <div class="card-icon">字</div>
-        <div class="card-title">상용한자 2136자</div>
+        <div class="card-icon" style="font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:900">字</div><div class="card-title">상용한자 2136자</div>
         <div class="card-desc">JLPT 급수별 한자를 학습하고 완료 체크하세요</div>
         <span class="card-badge">2136字</span>
       </a>
       <a href="player.html" class="card card-music">
-        <div class="card-icon">🎵</div>
-        <div class="card-title">J-POP 가사 학습</div>
+        <div class="card-icon"><span class="material-symbols-outlined" style="font-size:2rem">music_note</span></div><div class="card-title">J-POP 가사 학습</div>
         <div class="card-desc">노래 가사에서 단어를 찾고 즐겨찾기로 저장하세요</div>
       </a>
     </div>
   </div>
-
 </div>
 
 <!-- Favorites Modal -->
 <div class="modal-overlay" id="favModal" onclick="if(event.target===this)closeModal('favModal')">
   <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">★ 즐겨찾기 단어</div>
-      <button class="modal-close" onclick="closeModal('favModal')">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">★ 즐겨찾기 단어</div>
+      <button class="modal-close" onclick="closeModal('favModal')">✕</button></div>
     <div class="modal-body" id="favModalBody"></div>
   </div>
 </div>
-
 <!-- Kanji Modal -->
 <div class="modal-overlay" id="kanjiModal" onclick="if(event.target===this)closeModal('kanjiModal')">
   <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">✓ 학습 완료 한자</div>
-      <button class="modal-close" onclick="closeModal('kanjiModal')">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">✓ 학습 완료 한자</div>
+      <button class="modal-close" onclick="closeModal('kanjiModal')">✕</button></div>
     <div class="modal-body" id="kanjiModalBody"></div>
   </div>
 </div>
 
 <script src="scripts/index.js"></script>
+<script>
+function toggleSidebar(){
+  const sb=document.getElementById('slideSidebar');
+  const ov=document.getElementById('sidebarOverlay');
+  const hb=document.getElementById('hamburgerBtn');
+  const open=sb.classList.toggle('open');
+  ov.classList.toggle('open',open);
+  hb.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar(){
+  document.getElementById('slideSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+</script>
 </body>
 </html>

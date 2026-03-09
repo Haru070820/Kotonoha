@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>커뮤니티 — 言の葉 코토노하</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/community.css">
+<script>
+(function(){const s=JSON.parse(localStorage.getItem('kotonoha_settings')||'{}');if(s.darkMode)document.body.classList.add('dark');})();
+</script>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-jp">言の葉</span>
+      <span class="logo-kr">kotonoha</span>
+    </a>
+  </div>
+  <nav>
+    <a href="index.html">홈</a>
+    <a href="community.html" class="active">커뮤니티</a>
+    <a href="settings.html" style="padding:6px 10px;opacity:0.7;display:flex;align-items:center" title="설정"><span class="material-symbols-outlined">settings</span></a>
+  </nav>
+</header>
+
+<!-- 사이드바 오버레이 -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- 슬라이드 사이드바 -->
+<div class="slide-sidebar" id="slideSidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <span class="sb-logo-jp">言の葉</span>
+      <span class="sb-logo-kr">kotonoha</span>
+    </div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <nav class="sb-nav">
+      <a href="index.html"><span class="sb-icon"><span class="material-symbols-outlined">home</span></span>홈</a>
+      <a href="kana.html"><span class="sb-icon"><span class="material-symbols-outlined">translate</span></span>가나</a>
+      <a href="jlpt.html"><span class="sb-icon"><span class="material-symbols-outlined">school</span></span>JLPT</a>
+      <a href="kanji.html"><span class="sb-icon"><span class="material-symbols-outlined">menu_book</span></span>한자</a>
+      <a href="player.html"><span class="sb-icon"><span class="material-symbols-outlined">music_note</span></span>가사 학습</a>
+      <div class="sb-divider"></div>
+      <a href="settings.html"><span class="sb-icon"><span class="material-symbols-outlined">settings</span></span>설정</a>
+  </nav>
+  <div class="sb-footer">言の葉 코토노하 v2</div>
+</div>
+
+<div class="page-header">
+  <h1>커뮤니티</h1>
+  <p>일본어 학습 팁을 공유하고 질문을 올려보세요</p>
+</div>
+
+<div class="comm-layout">
+  <!-- 메인 피드 -->
+  <div>
+    <button class="write-btn" onclick="openWriteModal()">✏️ 글쓰기</button>
+
+    <div class="comm-tabs">
+      <button class="comm-tab active" onclick="switchTab('all',this)">전체</button>
+      <button class="comm-tab" onclick="switchTab('question',this)">질문</button>
+      <button class="comm-tab" onclick="switchTab('share',this)">공유</button>
+      <button class="comm-tab" onclick="switchTab('tip',this)">팁</button>
+      <button class="comm-tab" onclick="switchTab('request',this)">요청</button>
+    </div>
+
+    <div id="postFeed"></div>
+  </div>
+
+  <!-- 사이드바 -->
+  <div>
+    <div class="comm-widget">
+      <div class="widget-title">🔥 인기 태그</div>
+      <div id="hotTags"></div>
+    </div>
+    <div class="comm-widget">
+      <div class="widget-title">📌 인기 단어</div>
+      <div id="rankWords"></div>
+    </div>
+    <div class="comm-widget">
+      <div class="widget-title">💡 이용 안내</div>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.7">
+        현재 로컬 데모 버전입니다.<br>
+        게시글은 이 기기에만 저장되며<br>
+        다른 사용자와 공유되지 않아요.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 글쓰기 모달 -->
+<div class="write-modal-overlay" id="writeModal" onclick="if(event.target===this)closeWriteModal()">
+  <div class="write-modal">
+    <div class="write-modal-header">
+      <div class="write-modal-title">✏️ 새 글 작성</div>
+      <button style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)" onclick="closeWriteModal()">✕</button>
+    </div>
+    <div class="write-modal-body">
+      <div>
+        <div class="write-field-label">유형</div>
+        <div class="type-selector" id="typeSelector">
+          <button class="type-chip active" onclick="selectType('question',this)">❓ 질문</button>
+          <button class="type-chip" onclick="selectType('share',this)">💬 공유</button>
+          <button class="type-chip" onclick="selectType('tip',this)">💡 팁</button>
+          <button class="type-chip" onclick="selectType('request',this)">🙏 요청</button>
+        </div>
+      </div>
+      <div>
+        <div class="write-field-label">제목</div>
+        <input type="text" class="write-input" id="writeTitle" placeholder="제목을 입력해주세요">
+      </div>
+      <div>
+        <div class="write-field-label">내용</div>
+        <textarea class="write-input" id="writeBody" rows="5" placeholder="내용을 입력해주세요"></textarea>
+      </div>
+      <div>
+        <div class="write-field-label">태그 (쉼표로 구분, 예: N3, 가사, 동사)</div>
+        <input type="text" class="write-input" id="writeTags" placeholder="N3, 가사">
+      </div>
+    </div>
+    <div class="write-modal-footer">
+      <button class="btn-cancel" onclick="closeWriteModal()">취소</button>
+      <button class="btn-submit" onclick="submitPost()">게시하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="post-detail-overlay" id="detailModal" onclick="if(event.target===this)closeDetail()">
+  <div class="post-detail">
+    <div class="detail-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div style="flex:1">
+        <div style="margin-bottom:8px"><span class="post-badge" id="detailBadge"></span></div>
+        <div class="detail-title" id="detailTitle"></div>
+        <div class="post-meta" style="margin-top:8px" id="detailMeta"></div>
+      </div>
+      <button style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);flex-shrink:0" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="detail-body" id="detailBody"></div>
+    <div class="comment-section">
+      <div class="comment-title">COMMENTS · 댓글</div>
+      <div id="commentList"></div>
+      <div class="comment-input-row">
+        <input type="text" class="write-input" id="commentInput" placeholder="댓글을 입력하세요…" style="flex:1">
+        <button class="btn-submit" onclick="submitComment()" style="flex-shrink:0">등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/community.js"></script>
+<script>
+function toggleSidebar(){
+  const sb=document.getElementById('slideSidebar');
+  const ov=document.getElementById('sidebarOverlay');
+  const hb=document.getElementById('hamburgerBtn');
+  const open=sb.classList.toggle('open');
+  ov.classList.toggle('open',open);
+  hb.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar(){
+  document.getElementById('slideSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+</script>
+</body>
+</html>

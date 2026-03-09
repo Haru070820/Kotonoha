@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>설정 — 言の葉 코토노하</title>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/settings.css">
+<script>
+(function(){const s=JSON.parse(localStorage.getItem('kotonoha_settings')||'{}');if(s.darkMode)document.body.classList.add('dark');})();
+</script>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-jp">言の葉</span>
+      <span class="logo-kr">kotonoha</span>
+    </a>
+  </div>
+  <nav>
+    <a href="index.html">홈</a>
+    <a href="community.html">커뮤니티</a>
+    <a href="settings.html" style="padding:6px 10px;opacity:0.7;display:flex;align-items:center" title="설정"><span class="material-symbols-outlined">settings</span></a>
+  </nav>
+</header>
+
+<!-- 사이드바 오버레이 -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- 슬라이드 사이드바 -->
+<div class="slide-sidebar" id="slideSidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <span class="sb-logo-jp">言の葉</span>
+      <span class="sb-logo-kr">kotonoha</span>
+    </div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <nav class="sb-nav">
+      <a href="index.html"><span class="sb-icon"><span class="material-symbols-outlined">home</span></span>홈</a>
+      <a href="kana.html"><span class="sb-icon"><span class="material-symbols-outlined">translate</span></span>가나</a>
+      <a href="jlpt.html"><span class="sb-icon"><span class="material-symbols-outlined">school</span></span>JLPT</a>
+      <a href="kanji.html"><span class="sb-icon"><span class="material-symbols-outlined">menu_book</span></span>한자</a>
+      <a href="player.html"><span class="sb-icon"><span class="material-symbols-outlined">music_note</span></span>가사 학습</a>
+      <div class="sb-divider"></div>
+      <a href="settings.html" class="active"><span class="sb-icon"><span class="material-symbols-outlined">settings</span></span>설정</a>
+  </nav>
+  <div class="sb-footer">言の葉 코토노하 v2</div>
+</div>
+
+<div class="settings-hero">
+  <h1>⚙️ 설정</h1>
+  <p>코토노하를 나에게 맞게 설정해보세요</p>
+</div>
+
+<div class="settings-wrap">
+
+  <!-- 화면 설정 -->
+  <div class="settings-section">
+    <div class="settings-section-title">🌙 화면 설정</div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">다크 모드</div>
+        <div class="settings-row-desc">어두운 배경으로 눈의 피로를 줄여요</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sw-dark" onchange="saveSetting('darkMode', this.checked); applyDark(this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 가사 표시 설정 -->
+  <div class="settings-section">
+    <div class="settings-section-title">🎵 가사 표시 설정</div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">요미가나 (読み仮名)</div>
+        <div class="settings-row-desc">한자 위에 히라가나 독음을 표시해요</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sw-yomigana" onchange="saveSetting('yomigana', this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">로마자 표기 (발음)</div>
+        <div class="settings-row-desc">가사 아래 한국어 발음 표기를 표시해요</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sw-romaji" onchange="saveSetting('romaji', this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">한국어 번역</div>
+        <div class="settings-row-desc">각 가사 줄 아래 한국어 번역을 표시해요</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sw-korean" onchange="saveSetting('korean', this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 즐겨찾기 제한 -->
+  <div class="settings-section">
+    <div class="settings-section-title">★ 즐겨찾기 설정</div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">즐겨찾기 단어 최대 개수</div>
+        <div class="settings-row-desc">가사 학습에서 저장할 수 있는 최대 단어 수</div>
+      </div>
+      <div class="limit-btns">
+        <button class="limit-btn" onclick="changeFavLimit(-10)">−</button>
+        <div class="fav-limit-display" id="favLimitDisplay">50</div>
+        <button class="limit-btn" onclick="changeFavLimit(+10)">+</button>
+      </div>
+    </div>
+
+    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+      <div class="settings-row-label">빠른 선택</div>
+      <div class="segment-control">
+        <button class="segment-btn" onclick="setFavLimit(30)">30개</button>
+        <button class="segment-btn" onclick="setFavLimit(50)">50개</button>
+        <button class="segment-btn" onclick="setFavLimit(100)">100개</button>
+        <button class="segment-btn" onclick="setFavLimit(200)">200개</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 데이터 관리 -->
+  <div class="settings-section">
+    <div class="settings-section-title">🗂️ 데이터 관리</div>
+
+    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:10px;">
+      <div class="settings-row-label">저장된 데이터</div>
+      <div class="data-chips" id="dataChips"></div>
+    </div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">즐겨찾기 단어 초기화</div>
+        <div class="settings-row-desc">저장된 모든 즐겨찾기 단어를 삭제해요</div>
+      </div>
+      <button class="danger-btn" onclick="clearData('kotonoha_favs','즐겨찾기 단어')">초기화</button>
+    </div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">한자 학습 기록 초기화</div>
+        <div class="settings-row-desc">완료 체크한 모든 한자 기록을 삭제해요</div>
+      </div>
+      <button class="danger-btn" onclick="clearData('kotonoha_kanji_done','한자 학습 기록')">초기화</button>
+    </div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">좋아요 · 북마크 초기화</div>
+        <div class="settings-row-desc">노래 좋아요와 북마크를 모두 삭제해요</div>
+      </div>
+      <button class="danger-btn" onclick="clearLikesBM()">초기화</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- 저장 바 -->
+<div class="settings-save-bar">
+  <span class="save-status" id="saveStatus">변경 사항이 자동 저장됩니다</span>
+  <button class="btn-save" onclick="showSaved()">✓ 저장됨</button>
+</div>
+
+<script src="scripts/settings.js"></script>
+<script>
+function toggleSidebar(){
+  const sb=document.getElementById('slideSidebar');
+  const ov=document.getElementById('sidebarOverlay');
+  const hb=document.getElementById('hamburgerBtn');
+  const open=sb.classList.toggle('open');
+  ov.classList.toggle('open',open);
+  hb.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar(){
+  document.getElementById('slideSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+</script>
+</body>
+</html>

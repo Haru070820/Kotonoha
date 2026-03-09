@@ -37,7 +37,7 @@
   border: 1px solid transparent;
   text-decoration: none;
   display: block;
-  color: var(--ink);
+  color: var(--font);
 }
 .song-item:hover { background: var(--paper-warm); border-color: var(--border); }
 .song-item.active { background: rgba(212,160,23,0.1); border-color: var(--accent-gold); }
@@ -82,7 +82,7 @@
   border-radius: 10px;
 }
 .fav-bar-text { font-size: 0.82rem; color: var(--muted); }
-.fav-bar-text strong { color: var(--ink); }
+.fav-bar-text strong { color: var(--font); }
 .view-favs-btn {
   background: var(--ink);
   color: var(--accent-gold);
@@ -116,7 +116,7 @@
   gap: 0;
   font-family: 'Noto Serif JP', serif;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--font);
 }
 .lyrics-pron-line { font-size: 14px; color: var(--muted); margin-bottom: 5px; line-height: 1.7; font-family: 'Noto Sans KR', sans-serif; }
 .lyrics-ko-line { font-size: 14px; color: #b8954a; line-height: 1.7; font-family: 'Noto Sans KR', sans-serif; }
@@ -212,7 +212,7 @@
 }
 .fav-word-jp { font-family: 'Noto Serif JP', serif; font-size: 1.2rem; font-weight: 700; }
 .fav-word-reading { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
-.fav-word-meaning { font-size: 0.82rem; color: var(--ink); margin-top: 4px; }
+.fav-word-meaning { font-size: 0.82rem; color: var(--font); margin-top: 4px; }
 .fav-remove { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; }
 
 /* ── 빈 상태 ── */

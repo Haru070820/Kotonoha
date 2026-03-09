@@ -23,7 +23,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 1.8rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--font);
 }
 .prog-label { font-size: 0.72rem; color: var(--muted); }
 .progress-bar-wrap { flex: 1; min-width: 200px; }
@@ -93,7 +93,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--font);
   line-height: 1.1;
 }
 .kanji-card.done .kanji-char { color: #27ae60; }
@@ -126,7 +126,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 5rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--font);
   text-align: center;
   display: block;
   margin: 16px 0;
@@ -140,7 +140,7 @@
   margin-bottom: 4px;
   text-transform: uppercase;
 }
-.dp-value { font-size: 0.9rem; color: var(--ink); font-family: 'Noto Sans JP', sans-serif; }
+.dp-value { font-size: 0.9rem; color: var(--font); font-family: 'Noto Sans JP', sans-serif; }
 .dp-divider { height: 1px; background: var(--border); margin: 16px 0; }
 .dp-done-btn {
   width: 100%;

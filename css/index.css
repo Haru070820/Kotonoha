@@ -72,7 +72,7 @@
 .today-label {
   font-size: 0.75rem;
   letter-spacing: 0.2em;
-  color: var(--ink);
+  color: var(--font);
   opacity: 0.7;
   margin-bottom: 6px;
   font-weight: 700;
@@ -81,11 +81,11 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 2.2rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--font);
   line-height: 1;
 }
-.today-reading { font-size: 0.9rem; color: var(--ink); opacity: 0.75; margin-top: 4px; }
-.today-meaning { font-size: 1rem; color: var(--ink); font-weight: 600; }
+.today-reading { font-size: 0.9rem; color: var(--font); opacity: 0.75; margin-top: 4px; }
+.today-meaning { font-size: 1rem; color: var(--font); font-weight: 600; }
 .today-level {
   background: var(--ink);
   color: var(--accent-gold);
@@ -108,7 +108,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--font);
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 2px solid var(--ink);
@@ -139,7 +139,7 @@
   cursor: pointer;
   transition: all 0.25s;
   text-decoration: none;
-  color: var(--ink);
+  color: var(--font);
   display: block;
   position: relative;
   overflow: hidden;
@@ -211,7 +211,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 1.8rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--font);
 }
 .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
 
@@ -227,7 +227,7 @@
   gap: 16px;
   cursor: pointer;
   text-decoration: none;
-  color: var(--ink);
+  color: var(--font);
   transition: all 0.2s;
 }
 .song-item:hover {
@@ -290,7 +290,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--font);
 }
 .modal-close {
   background: none;
@@ -321,11 +321,11 @@
   font-size: 1.3rem;
   font-weight: 700;
   min-width: 40px;
-  color: var(--ink);
+  color: var(--font);
 }
 .fav-info { flex: 1; }
 .fav-reading { font-size: 0.78rem; color: var(--muted); }
-.fav-meaning { font-size: 0.85rem; color: var(--ink); margin-top: 3px; }
+.fav-meaning { font-size: 0.85rem; color: var(--font); margin-top: 3px; }
 .fav-delete {
   background: none;
   border: 1px solid transparent;
@@ -352,7 +352,7 @@
   font-weight: 700;
   margin: 4px;
   background: var(--paper-warm);
-  color: var(--ink);
+  color: var(--font);
   cursor: default;
   transition: all 0.15s;
 }
@@ -363,4 +363,97 @@
 @media (max-width: 600px) {
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
   .hero h1 { font-size: 2rem; }
+}
+
+/* ── 음악탭 바로가기 미니카드 (노래 아이템 절반 높이) ── */
+.music-shortcut-row {
+  display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
+}
+.music-shortcut {
+  flex: 1; min-width: 140px;
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 14px; display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--font); transition: all 0.2s;
+  min-height: 44px; /* 노래 아이템(~90px)의 절반 */
+}
+body.dark .music-shortcut { background: #1c1b2e; border-color: #2a2940; }
+.music-shortcut:hover { background: var(--hover-bg); border-color: var(--accent-gold); transform: translateX(3px); }
+.music-shortcut-icon { font-size: 1rem; flex-shrink: 0; }
+.music-shortcut-text { font-size: 0.82rem; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-shortcut-arrow { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
+
+/* ── 노래 검색바 ── */
+.song-search-wrap { margin-bottom: 12px; position: relative; }
+.song-search-input {
+  width: 100%; padding: 10px 16px 10px 38px;
+  border: 1px solid var(--border); border-radius: 10px;
+  font-size: 0.88rem; font-family: inherit; outline: none;
+  background: #fff; color: var(--ink); transition: border-color 0.2s;
+}
+body.dark .song-search-input { background: #1c1b2e; border-color: #2a2940; color: var(--ink); }
+.song-search-input:focus { border-color: var(--accent-gold); }
+.song-search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-size: 0.9rem; pointer-events: none;
+}
+.song-no-result { text-align: center; padding: 20px; color: var(--muted); font-size: 0.85rem; }
+
+/* ── 좋아요/북마크 버튼 ── */
+.song-actions { display: flex; gap: 6px; align-items: center; }
+.song-like-btn, .song-bm-btn {
+  background: none; border: none; cursor: pointer; font-size: 1rem;
+  padding: 3px 5px; border-radius: 6px; transition: all 0.15s;
+  color: var(--muted); line-height: 1;
+}
+.song-like-btn:hover { color: #e74c3c; }
+.song-bm-btn:hover { color: var(--accent-gold); }
+.song-like-btn.on { color: #e74c3c; }
+.song-bm-btn.on { color: var(--accent-gold); }
+
+/* ── 다크모드: hero / today-banner는 색상 변경 없이 유지 ── */
+body.dark .hero { background: var(--ink); }   /* 기존 다크 배경 그대로 */
+body.dark .hero::before { color: rgba(255,255,255,0.02); }
+body.dark .today-banner-wrap { background: transparent; }
+body.dark .today-banner {
+  /* 골드 배너는 다크모드에서도 동일하게 유지 */
+  background: linear-gradient(135deg, #c8920e 0%, #d4a017 60%, #b8820c 100%);
+}
+body.dark .today-label { color: rgba(0,0,0,0.55); }
+body.dark .today-word { color: #1a1a2e; }
+body.dark .today-reading { color: rgba(0,0,0,0.55); }
+body.dark .today-meaning { color: #1a1a2e; }
+/* stats-bar 카드는 다크모드 오버라이드 */
+body.dark .stat-box { background: #1c1b2e; border-color: #2a2940; }
+body.dark .stat-num { color: var(--accent-gold); }
+/* section 제목 */
+body.dark .section-title { color: var(--font); }
+/* song-tag */
+body.dark .song-tag { background: #22213a; border-color: #363558; color: var(--muted); }
+
+/* ── 플레이어 바로가기 아이템 (노래 목록 맨 하단, 일반 높이의 2/3) ── */
+.player-goto-item {
+  border: 1px solid var(--border) !important;
+  background: var(--paper-warm) !important;
+  margin-top: 4px;
+  padding: 9px 18px !important;   /* 일반 14px → 9px = ~2/3 높이 */
+  min-height: 0 !important;
+}
+.player-goto-item .song-info .song-title {
+  font-size: 0.88rem;
+}
+.player-goto-item .song-info .song-artist {
+  font-size: 0.74rem;
+}
+.player-goto-item:hover {
+  background: rgba(212,160,23,0.07) !important;
+  border-color: var(--accent-gold) !important;
+  transform: translateX(4px);
+}
+body.dark .player-goto-item {
+  background: #1c1b2e !important;
+  border-color: #2a2940 !important;
+}
+body.dark .player-goto-item:hover {
+  background: rgba(212,160,23,0.08) !important;
+  border-color: rgba(212,160,23,0.6) !important;
 }

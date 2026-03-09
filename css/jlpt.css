@@ -47,7 +47,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 1.6rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--font);
 }
 .wc-kanji { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 .wc-fav {
@@ -72,7 +72,7 @@
   font-family: 'Noto Sans JP', sans-serif;
 }
 .wc-divider { height: 1px; background: var(--border); margin-bottom: 10px; }
-.wc-meaning { font-size: 0.85rem; color: var(--ink); line-height: 1.6; }
+.wc-meaning { font-size: 0.85rem; color: var(--font); line-height: 1.6; }
 .wc-pos {
   font-size: 0.7rem;
   background: var(--paper-warm);
@@ -97,7 +97,7 @@
 }
 .today-badge {
   background: var(--accent-gold);
-  color: var(--ink);
+  color: var(--font);
   border-radius: 8px;
   padding: 4px 12px;
   font-size: 0.72rem;

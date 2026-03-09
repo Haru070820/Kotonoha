@@ -10,18 +10,45 @@
 <body>
 
 <header>
-  <a href="index.html" class="logo">
-    <span class="logo-jp">言の葉</span>
-    <span class="logo-kr">코토노하</span>
-  </a>
+  <div class="header-left">
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-jp">言の葉</span>
+      <span class="logo-kr">kotonoha</span>
+    </a>
+  </div>
   <nav>
     <a href="index.html">홈</a>
-    <a href="kana.html" class="active">가나</a>
-    <a href="jlpt.html">JLPT</a>
-    <a href="kanji.html">한자</a>
-    <a href="player.html">가사 학습</a>
+    <a href="community.html">커뮤니티</a>
+    <a href="settings.html" style="padding:6px 10px;opacity:0.7;display:flex;align-items:center" title="설정"><span class="material-symbols-outlined">settings</span></a>
   </nav>
 </header>
+
+<!-- 사이드바 오버레이 -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- 슬라이드 사이드바 -->
+<div class="slide-sidebar" id="slideSidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <span class="sb-logo-jp">言の葉</span>
+      <span class="sb-logo-kr">kotonoha</span>
+    </div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <nav class="sb-nav">
+      <a href="index.html"><span class="sb-icon"><span class="material-symbols-outlined">home</span></span>홈</a>
+      <a href="kana.html" class="active"><span class="sb-icon"><span class="material-symbols-outlined">translate</span></span>가나</a>
+      <a href="jlpt.html"><span class="sb-icon"><span class="material-symbols-outlined">school</span></span>JLPT</a>
+      <a href="kanji.html"><span class="sb-icon"><span class="material-symbols-outlined">menu_book</span></span>한자</a>
+      <a href="player.html"><span class="sb-icon"><span class="material-symbols-outlined">music_note</span></span>가사 학습</a>
+      <div class="sb-divider"></div>
+      <a href="settings.html"><span class="sb-icon"><span class="material-symbols-outlined">settings</span></span>설정</a>
+  </nav>
+  <div class="sb-footer">言の葉 코토노하 v2</div>
+</div>
 
 <div class="page-header">
   <h1>ひらがな・カタカナ</h1>
@@ -58,5 +85,26 @@
 </div>
 
 <script src="scripts/kana.js"></script>
+<script>
+(function(){const s=JSON.parse(localStorage.getItem('kotonoha_settings')||'{}');if(s.darkMode)document.body.classList.add('dark');})();
+</script>
+<script>
+function toggleSidebar(){
+  const sb=document.getElementById('slideSidebar');
+  const ov=document.getElementById('sidebarOverlay');
+  const hb=document.getElementById('hamburgerBtn');
+  const open=sb.classList.toggle('open');
+  ov.classList.toggle('open',open);
+  hb.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar(){
+  document.getElementById('slideSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar();});
+</script>
 </body>
 </html>

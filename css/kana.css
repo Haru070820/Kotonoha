@@ -74,7 +74,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--font);
   line-height: 1.1;
 }
 .kana-sub { font-size: 0.75rem; color: var(--muted); margin-top: 6px; letter-spacing: 0.05em; }
@@ -87,7 +87,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 16px;
-  color: var(--ink);
+  color: var(--font);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -134,7 +134,7 @@
   font-family: 'Noto Serif JP', serif;
   font-size: 6rem;
   font-weight: 900;
-  color: var(--ink);
+  color: var(--font);
   line-height: 1;
 }
 .modal-romaji {

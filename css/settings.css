@@ -1,0 +1,66 @@
+/* =============================================
+   settings.css — 설정 페이지 전용 스타일
+   ============================================= */
+.settings-wrap { max-width: 680px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.settings-hero {
+  background: var(--ink); padding: 40px 24px 32px; text-align: center; margin-bottom: 0;
+}
+.settings-hero h1 {
+  font-family: 'Noto Serif JP', serif; font-size: 1.8rem; font-weight: 900;
+  color: #fff; margin-bottom: 6px;
+}
+.settings-hero p { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+
+.settings-save-bar {
+  position: sticky; bottom: 0; background: var(--paper);
+  border-top: 1px solid var(--border); padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between; z-index: 50;
+}
+body.dark .settings-save-bar { background: var(--paper); }
+.save-status { font-size: 0.82rem; color: var(--muted); }
+.save-status.saved { color: var(--accent-green); }
+.btn-save {
+  background: var(--ink); color: var(--accent-gold);
+  border: none; border-radius: 10px; padding: 10px 24px;
+  font-family: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-save:hover { background: var(--accent-gold); color: var(--ink); }
+
+.fav-limit-display {
+  font-family: 'Noto Serif JP', serif; font-size: 1.6rem; font-weight: 900;
+  color: var(--accent-gold); min-width: 60px; text-align: center;
+}
+.limit-btns { display: flex; align-items: center; gap: 10px; }
+.limit-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border);
+  background: none; font-size: 1.2rem; cursor: pointer; color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-family: inherit;
+}
+.limit-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.color-swatch-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.color-swatch {
+  width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: transform 0.15s;
+}
+.color-swatch:hover { transform: scale(1.15); }
+.color-swatch.active { border-color: var(--ink); box-shadow: 0 0 0 2px var(--accent-gold); }
+
+.danger-btn {
+  background: none; border: 1px solid #e74c3c; color: #e74c3c;
+  border-radius: 8px; padding: 8px 18px; cursor: pointer;
+  font-family: inherit; font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+}
+.danger-btn:hover { background: #e74c3c; color: #fff; }
+
+/* 데이터 통계 칩 */
+.data-chips { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.data-chip {
+  background: var(--paper-warm); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 14px; font-size: 0.78rem; color: var(--muted);
+}
+body.dark .data-chip { background: #22213a; }
+.data-chip strong { color: var(--font); }
