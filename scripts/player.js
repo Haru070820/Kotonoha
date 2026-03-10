@@ -186,6 +186,9 @@ function showTooltip(e,word,pinned){
   document.getElementById('tt-kanji').textContent  =data.kanji||'';
   document.getElementById('tt-reading').textContent=data.reading;
   document.getElementById('tt-meaning').innerHTML  =data.meanings.map((m,i)=>`<li data-num="${i+1}">${m}</li>`).join('');
+  // TTS 스피커 버튼
+  const ttTts=document.getElementById('tt-tts-btn');
+  if(ttTts) ttTts.innerHTML=ttsBtn(data.kanji||data.word, 'tt-tts');
   const isFav=favs.some(f=>f.word===word);
   const btn=document.getElementById('tt-fav-btn');
   btn.textContent=isFav?'★ 즐겨찾기됨':'☆ 즐겨찾기'; btn.classList.toggle('on',isFav);

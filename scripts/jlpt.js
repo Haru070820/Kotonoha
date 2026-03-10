@@ -48,6 +48,7 @@ function renderWords() {
 
   document.getElementById('wordGrid').innerHTML = visible.map(w => {
     const isFav = favs.some(f => f.word === w.word);
+    const readText = w.kanji ? `${w.kanji}` : w.word;
     return `
       <div class="word-card" style="--level-color:${color}">
         <div class="wc-header">
@@ -55,7 +56,10 @@ function renderWords() {
             <div class="wc-word">${w.word}</div>
             <div class="wc-kanji">${w.kanji || ''}</div>
           </div>
-          <button class="wc-fav ${isFav ? 'on' : ''}" onclick="toggleFav('${w.word}')">${isFav ? '★' : '☆'}</button>
+          <div style="display:flex;align-items:center;gap:6px">
+            ${ttsBtn(readText, 'wc-tts')}
+            <button class="wc-fav ${isFav ? 'on' : ''}" onclick="toggleFav('${w.word}')">${isFav ? '★' : '☆'}</button>
+          </div>
         </div>
         <div class="wc-reading">${w.reading}</div>
         <div class="wc-divider"></div>

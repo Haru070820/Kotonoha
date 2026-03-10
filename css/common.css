@@ -529,3 +529,71 @@ nav a.nav-settings:hover { opacity: 1; background: rgba(212,160,23,0.2); }
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 .ms-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+/* ── TTS 스피커 버튼 ── */
+.tts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 2px 4px;
+  color: var(--muted);
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  vertical-align: middle;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.tts-btn .material-symbols-outlined {
+  font-size: 1rem;
+  transition: color 0.18s;
+}
+.tts-btn:hover {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  background: rgba(212,160,23,0.07);
+}
+.tts-btn.tts-speaking {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  background: rgba(212,160,23,0.12);
+  animation: tts-pulse 0.8s ease-in-out infinite;
+}
+@keyframes tts-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+/* 다크모드에서도 자연스럽게 */
+body.dark .tts-btn { border-color: #2a2940; color: #8a8d9e; }
+body.dark .tts-btn:hover { color: var(--accent-gold); border-color: var(--accent-gold); background: rgba(212,160,23,0.1); }
+body.dark .tts-btn.tts-speaking { color: var(--accent-gold); border-color: var(--accent-gold); background: rgba(212,160,23,0.15); }
+
+/* 음성 성별 선택 세그먼트 (설정 페이지용) */
+.voice-selector {
+  display: flex;
+  background: var(--paper-warm);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+.voice-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+.voice-btn.active { background: var(--ink); color: var(--accent-gold); }
+body.dark .voice-selector { background: #22213a; border-color: #2a2940; }
+body.dark .voice-btn.active { background: #0e0d1a; }

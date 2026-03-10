@@ -71,6 +71,7 @@
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-kana" id="modalMain"></div>
     <div class="modal-romaji" id="modalRomaji"></div>
+    <div id="modalTtsBtn" style="text-align:center;margin:6px 0 2px"></div>
     <div class="modal-pair">
       <div class="modal-pair-item">
         <label>ひらがな</label>
@@ -84,6 +85,7 @@
   </div>
 </div>
 
+<script src="scripts/tts.js"></script>
 <script src="scripts/kana.js"></script>
 <script>
 (function(){const s=JSON.parse(localStorage.getItem('kotonoha_settings')||'{}');if(s.darkMode)document.body.classList.add('dark');})();

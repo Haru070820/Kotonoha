@@ -122,10 +122,14 @@ function renderAll() {
 }
 
 function openModal(item) {
-  document.getElementById('modalMain').textContent = mode === 'kata' ? item.kata : item.hira;
+  const main = mode === 'kata' ? item.kata : item.hira;
+  document.getElementById('modalMain').textContent = main || item.hira;
   document.getElementById('modalRomaji').textContent = item.romaji.toUpperCase();
   document.getElementById('modalHira').textContent = item.hira || '-';
   document.getElementById('modalKata').textContent = item.kata || '-';
+  // TTS 버튼 삽입
+  const ttsEl = document.getElementById('modalTtsBtn');
+  if (ttsEl) ttsEl.innerHTML = ttsBtn(main || item.hira, 'kana-tts');
   document.getElementById('modalOverlay').classList.add('open');
 }
 

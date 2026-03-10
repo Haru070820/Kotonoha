@@ -103,6 +103,7 @@
   <button class="dp-close" onclick="closeDetail()">✕</button>
   <div style="clear:both"></div>
   <span class="dp-char" id="dpChar"></span>
+  <div style="text-align:center;margin-top:6px" id="dpTtsBtn"></div>
   <div style="text-align:center">
     <span class="dp-level-badge" id="dpLevel"></span>
   </div>
@@ -128,6 +129,7 @@
 </div>
 
 <script src="scripts/kanjiDB.js"></script>
+<script src="scripts/tts.js"></script>
 <script src="scripts/kanji.js"></script>
 <script>
 (function(){const s=JSON.parse(localStorage.getItem('kotonoha_settings')||'{}');if(s.darkMode)document.body.classList.add('dark');})();

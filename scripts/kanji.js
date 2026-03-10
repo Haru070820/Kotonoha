@@ -88,6 +88,9 @@ function openDetail(item) {
   document.getElementById('dpKun').textContent = item.kun || '-';
   document.getElementById('dpKr').textContent = item.kr || '-';
   document.getElementById('dpMeaning').textContent = item.meaning;
+  // TTS 버튼 삽입
+  const ttsEl = document.getElementById('dpTtsBtn');
+  ttsEl.innerHTML = ttsBtn(item.k, 'dp-tts');
   const isDone = done.includes(item.k);
   const btn = document.getElementById('dpDoneBtn');
   btn.textContent = isDone ? '✓ 학습 완료됨 (다시 클릭해서 취소)' : '○ 학습 완료 체크';
