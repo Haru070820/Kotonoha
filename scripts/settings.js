@@ -11,7 +11,20 @@ window.onload = function () {
   updateFavLimitDisplay();
   renderDataChips();
   updateVoiceUI(settings.ttsGender || 'female');
+  updateTodayCardUI(settings.todayCardMode || 'word');
 };
+
+// ── 오늘의 카드 설정 ──
+function setTodayCardMode(mode) {
+  saveSetting('todayCardMode', mode);
+  updateTodayCardUI(mode);
+}
+function updateTodayCardUI(mode) {
+  const btnW = document.getElementById('btn-today-word');
+  const btnK = document.getElementById('btn-today-kanji');
+  if(btnW) btnW.classList.toggle('active', mode === 'word');
+  if(btnK) btnK.classList.toggle('active', mode === 'kanji');
+}
 
 // ── TTS 음성 성별 ──
 function setVoiceGender(gender) {

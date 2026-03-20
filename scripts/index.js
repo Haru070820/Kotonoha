@@ -15,22 +15,55 @@ const LS_FAVS='kotonoha_favs', LS_KANJI='kotonoha_kanji_done';
 let songLikes=JSON.parse(localStorage.getItem(LS_LIKES)||'[]');
 let songBMs  =JSON.parse(localStorage.getItem(LS_BM)||'[]');
 
-// ── 오늘의 단어 ──
+// ── 오늘의 카드 (단어 or 한자) ──
 const todayWords=[
-  {word:'美しい',reading:'うつくしい · utsukushii',meaning:'아름답다, 예쁘다',level:'N3'},
-  {word:'夢',    reading:'ゆめ · yume',             meaning:'꿈',              level:'N4'},
-  {word:'輝く',  reading:'かがやく · kagayaku',     meaning:'빛나다, 반짝이다',level:'N3'},
-  {word:'懐かしい',reading:'なつかしい · natsukashii',meaning:'그립다, 옛날 생각이 나다',level:'N2'},
-  {word:'切ない',reading:'せつない · setsunai',      meaning:'가슴이 아프다, 애틋하다',level:'N2'},
-  {word:'儚い',  reading:'はかない · hakanai',       meaning:'덧없다, 무상하다',level:'N1'},
-  {word:'勇気',  reading:'ゆうき · yūki',            meaning:'용기',            level:'N4'},
+  {word:'美しい',reading:'うつくしい · utsukushii',meaning:'아름답다, 예쁘다',level:'N3', example:'美しい景色に感動しました。', ex_ko:'아름다운 경치에 감동했습니다.'},
+  {word:'夢',    reading:'ゆめ · yume',             meaning:'꿈',              level:'N4', example:'私の夢は歌手になることです。', ex_ko:'제 꿈은 가수가 되는 것입니다.'},
+  {word:'輝く',  reading:'かがやく · kagayaku',     meaning:'빛나다, 반짝이다',level:'N3', example:'夜空に星が輝いています。', ex_ko:'밤하늘에 별이 반짝이고 있습니다.'},
+  {word:'懐かしい',reading:'なつかしい · natsukashii',meaning:'그립다, 옛날 생각이 나다',level:'N2', example:'昔の写真を見ると懐かしい気分になる。', ex_ko:'옛날 사진을 보면 그리운 기분이 든다.'},
+  {word:'切ない',reading:'せつない · setsunai',      meaning:'가슴이 아프다, 애틋하다',level:'N2', example:'秋の風が吹くと、少し切ない。', ex_ko:'가을바람이 불면 조금 애틋하다.'},
+  {word:'儚い',  reading:'はかない · hakanai',       meaning:'덧없다, 무상하다',level:'N1', example:'人の命は儚いものだ。', ex_ko:'사람의 목숨은 덧없는 것이다.'},
+  {word:'勇気',  reading:'ゆうき · yūki',            meaning:'용기',            level:'N4', example:'勇気があれば、何でもできます。', ex_ko:'용기가 있다면 무엇이든 할 수 있습니다.'},
 ];
 (function(){
-  const tw=todayWords[new Date().getDate()%todayWords.length];
-  document.getElementById('todayWord').textContent   =tw.word;
-  document.getElementById('todayReading').textContent=tw.reading;
-  document.getElementById('todayMeaning').textContent=tw.meaning;
-  document.getElementById('todayLevel').textContent  =tw.level;
+  const todayCardMode = settings.todayCardMode || 'word';
+  const day = new Date().getDate();
+
+  const exEl = document.getElementById('todayExample');
+
+  if (todayCardMode === 'kanji' && typeof kanjiDB !== 'undefined') {
+    const allKanji = [];
+    for (const lvl in kanjiDB) {
+      allKanji.push(...kanjiDB[lvl].map(k => ({...k, level: lvl})));
+    }
+    const kItem = allKanji[day % allKanji.length];
+    
+    document.querySelector('.today-label').textContent = "TODAY'S KANJI";
+    document.getElementById('todayWord').textContent = kItem.k;
+    
+    const reading = [];
+    if(kItem.on) reading.push(kItem.on);
+    if(kItem.kun) reading.push(kItem.kun);
+    document.getElementById('todayReading').textContent = reading.join(' · ');
+    
+    const meaning = [];
+    if(kItem.kr) meaning.push(`[${kItem.kr}]`);
+    if(kItem.meaning) meaning.push(kItem.meaning);
+    document.getElementById('todayMeaning').textContent = meaning.join(' ');
+    
+    document.getElementById('todayLevel').textContent = kItem.level;
+    if(exEl) exEl.textContent = ''; // 한자는 예재 생략
+    document.querySelector('.today-banner').onclick = () => location.href = 'kanji.html';
+  } else {
+    const tw=todayWords[day % todayWords.length];
+    document.querySelector('.today-label').textContent = "TODAY'S WORD";
+    document.getElementById('todayWord').textContent   =tw.word;
+    document.getElementById('todayReading').textContent=tw.reading;
+    document.getElementById('todayMeaning').textContent=tw.meaning;
+    document.getElementById('todayLevel').textContent  =tw.level;
+    if(exEl) exEl.innerHTML = `${tw.example}<br><span style="opacity:0.8">[${tw.ex_ko}]</span>`;
+    document.querySelector('.today-banner').onclick = () => location.href = 'jlpt.html';
+  }
 })();
 
 // ── 통계 새로고침 ──

@@ -113,6 +113,33 @@ function renderLyrics() {
   attachTokenEvents();
 }
 
+function renderWord(w) {
+  const data = wordDB[w];
+  if (!data || !/[一-龯]/.test(w)) return escH(w);
+  const furi = data.reading.split(' ')[0];
+  
+  let kEnd = w.length - 1;
+  let fEnd = furi.length - 1;
+  while(kEnd >= 0 && fEnd >= 0 && w[kEnd] === furi[fEnd]) {
+    kEnd--;
+    fEnd--;
+  }
+  
+  let kStart = 0;
+  let fStart = 0;
+  while(kStart <= kEnd && fStart <= fEnd && w[kStart] === furi[fStart]) {
+    kStart++;
+    fStart++;
+  }
+  
+  const prefix = w.substring(0, kStart);
+  const suffix = w.substring(kEnd + 1);
+  const innerK = w.substring(kStart, kEnd + 1);
+  const innerF = furi.substring(fStart, fEnd + 1);
+  
+  return escH(prefix) + `<ruby>${escH(innerK)}<rt>${escH(innerF)}</rt></ruby>` + escH(suffix);
+}
+
 function buildJpHTML(segments) {
   let html = '';
   for (const seg of segments) {
@@ -122,7 +149,11 @@ function buildJpHTML(segments) {
         const key=seg[0], furi=seg[1];
         const isFav=favs.some(f=>f.word===key), hasDict=!!wordDB[key];
         html+=`<span class="word-token${isFav?' favorited':''}${pinnedWord===key?' pinned':''}" data-word="${escH(key)}"${hasDict?' data-hasdict':''}>`;
-        html+=escH(key);
+        if (furi) {
+          html+=`<ruby>${escH(key)}<rt>${escH(furi)}</rt></ruby>`;
+        } else {
+          html+=hasDict ? renderWord(key) : escH(key);
+        }
         html+=`</span>`;
         for(let i=2;i<seg.length;i++){
           if(Array.isArray(seg[i])) html+=buildJpHTML([seg[i]]);
@@ -143,14 +174,14 @@ function tokenizePlain(text) {
       const cand=chars.slice(i,i+len).join('');
       if(wordDB[cand]){
         const isFav=favs.some(f=>f.word===cand);
-        res+=`<span class="word-token${isFav?' favorited':''}${pinnedWord===cand?' pinned':''}" data-word="${escH(cand)}" data-hasdict>${escH(cand)}</span>`;
+        res+=`<span class="word-token${isFav?' favorited':''}${pinnedWord===cand?' pinned':''}" data-word="${escH(cand)}" data-hasdict>${renderWord(cand)}</span>`;
         i+=len; matched=true; break;
       }
     }
     if(!matched){
       const ch=chars[i];
       if(wordDB[ch]){const isFav=favs.some(f=>f.word===ch);
-        res+=`<span class="word-token${isFav?' favorited':''}${pinnedWord===ch?' pinned':''}" data-word="${escH(ch)}" data-hasdict>${escH(ch)}</span>`;
+        res+=`<span class="word-token${isFav?' favorited':''}${pinnedWord===ch?' pinned':''}" data-word="${escH(ch)}" data-hasdict>${renderWord(ch)}</span>`;
       } else res+=escH(ch);
       i++;
     }
@@ -184,7 +215,7 @@ function showTooltip(e,word,pinned){
   const data=wordDB[word]; if(!data) return;
   document.getElementById('tt-word').textContent   =data.word;
   document.getElementById('tt-kanji').textContent  =data.kanji||'';
-  document.getElementById('tt-reading').textContent=data.reading;
+  document.getElementById('tt-reading').textContent=data.reading.replace(' [', ' · ').replace(']', '');
   document.getElementById('tt-meaning').innerHTML  =data.meanings.map((m,i)=>`<li data-num="${i+1}">${m}</li>`).join('');
   // TTS 스피커 버튼
   const ttTts=document.getElementById('tt-tts-btn');

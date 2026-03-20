@@ -73,6 +73,17 @@
         <span class="toggle-slider"></span>
       </label>
     </div>
+
+    <div class="settings-row">
+      <div class="settings-row-info">
+        <div class="settings-row-label">홈 화면 오늘의 카드</div>
+        <div class="settings-row-desc">홈 화면 상단에 표시될 '오늘의 단어'를 선택하세요</div>
+      </div>
+      <div class="segment-control" style="width:160px">
+        <button class="segment-btn" id="btn-today-word" onclick="setTodayCardMode('word')">단어</button>
+        <button class="segment-btn" id="btn-today-kanji" onclick="setTodayCardMode('kanji')">한자</button>
+      </div>
+    </div>
   </div>
 
   <!-- TTS 음성 설정 -->
@@ -112,7 +123,7 @@
 
     <div class="settings-row">
       <div class="settings-row-info">
-        <div class="settings-row-label">요미가나 (読み仮名)</div>
+        <div class="settings-row-label">요미가나 · 후리가나</div>
         <div class="settings-row-desc">한자 위에 히라가나 독음을 표시해요</div>
       </div>
       <label class="toggle-switch">

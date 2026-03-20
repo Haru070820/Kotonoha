@@ -61,13 +61,14 @@
 <div class="today-banner-wrap">
   <div class="today-banner" onclick="location.href='jlpt.html'">
     <div>
-      <div class="today-label">오늘의 단어 TODAY'S WORD</div>
+      <div class="today-label">TODAY'S WORD</div>
       <div class="today-word" id="todayWord">美しい</div>
       <div class="today-reading" id="todayReading">うつくしい · utsukushii</div>
     </div>
     <div>
       <div class="today-meaning" id="todayMeaning">아름답다, 예쁘다</div>
-      <div style="margin-top:8px;text-align:right"><span class="today-level" id="todayLevel">N3</span></div>
+      <div class="today-example" id="todayExample" style="margin-top:10px; font-size:0.85rem; color:var(--muted); line-height:1.4"></div>
+      <div style="margin-top:12px;text-align:right"><span class="today-level" id="todayLevel">N3</span></div>
     </div>
   </div>
 </div>
@@ -151,6 +152,7 @@
   </div>
 </div>
 
+<script src="scripts/kanjiDB.js"></script>
 <script src="scripts/index.js"></script>
 <script>
 function toggleSidebar(){

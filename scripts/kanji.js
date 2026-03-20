@@ -51,8 +51,8 @@ function renderGrid() {
       <div class="kanji-card ${isDone ? 'done' : ''}" onclick='openDetail(${JSON.stringify(item)})'>
         <span class="kanji-done-mark">✓</span>
         <div class="kanji-char">${item.k}</div>
-        <div class="kanji-on">${firstOn}</div>
         <div class="kanji-kr" style="font-size:0.62rem;color:#a08060;margin-top:2px;font-family:'Noto Sans KR',sans-serif">${item.kr||''}</div>
+        <div class="kanji-on">${firstOn}</div>
       </div>
     `;
   }).join('');
@@ -84,13 +84,33 @@ function openDetail(item) {
   document.getElementById('dpChar').textContent = item.k;
   document.getElementById('dpLevel').textContent = currentLevel;
   document.getElementById('dpLevel').style.background = levelColors[currentLevel];
-  document.getElementById('dpOn').textContent = item.on || '-';
-  document.getElementById('dpKun').textContent = item.kun || '-';
+  
+  const onText = item.on || '-';
+  const kunText = item.kun || '-';
+  document.getElementById('dpOn').textContent = onText;
+  document.getElementById('dpKun').textContent = kunText;
   document.getElementById('dpKr').textContent = item.kr || '-';
   document.getElementById('dpMeaning').textContent = item.meaning;
-  // TTS 버튼 삽입
-  const ttsEl = document.getElementById('dpTtsBtn');
-  ttsEl.innerHTML = ttsBtn(item.k, 'dp-tts');
+
+  const onTtsWrap = document.getElementById('dpOnTts');
+  if (onText !== '-') {
+    const firstOn = onText.split('・')[0].split(',')[0].trim();
+    // Use kana for TTS instead of kanji to avoid cutoff/wrong reading
+    onTtsWrap.innerHTML = ttsBtn(firstOn, 'dp-tts');
+  } else {
+    onTtsWrap.innerHTML = '';
+  }
+
+  const kunTtsWrap = document.getElementById('dpKunTts');
+  if (kunText !== '-') {
+    // Some kunyomi have parentheses or okurigana variations, grab raw
+    let firstKun = kunText.split('・')[0].split(',')[0].trim();
+    firstKun = firstKun.replace(/（[^）]*）/g, '').replace(/\([^\)]*\)/g, '');
+    kunTtsWrap.innerHTML = ttsBtn(firstKun, 'dp-tts');
+  } else {
+    kunTtsWrap.innerHTML = '';
+  }
+
   const isDone = done.includes(item.k);
   const btn = document.getElementById('dpDoneBtn');
   btn.textContent = isDone ? '✓ 학습 완료됨 (다시 클릭해서 취소)' : '○ 학습 완료 체크';

@@ -225,3 +225,11 @@
   .sidebar { position: static; max-height: 200px; }
   .player-area { padding: 24px 20px; }
 }
+
+/* ── 요미가나(후리가나) 설정 토글 ── */
+html[data-yomigana="0"] ruby rt {
+  display: none;
+}
+html[data-yomigana="0"] ruby {
+  ruby-align: center;
+}
