@@ -67,7 +67,7 @@
     </div>
     <div>
       <div class="today-meaning" id="todayMeaning">아름답다, 예쁘다</div>
-      <div class="today-example" id="todayExample" style="margin-top:10px; font-size:0.85rem; color:var(--muted); line-height:1.4"></div>
+      <div class="today-example" id="todayExample"></div>
       <div style="margin-top:12px;text-align:right"><span class="today-level" id="todayLevel">N3</span></div>
     </div>
   </div>
@@ -92,19 +92,55 @@
   <div class="section">
     <div class="section-title">음악으로 배우기 <span class="en">Learn through Music</span></div>
 
-    <div class="song-search-wrap">
-      <span class="song-search-icon">🔍</span>
-      <input type="text" class="song-search-input" id="songSearchInput"
-        placeholder="노래 제목, 아티스트 검색…" oninput="filterSongs()">
+    <!-- 카테고리 탭 -->
+    <div class="music-tabs">
+      <button class="music-tab active" onclick="showMusicTab('popular')"><span class="material-symbols-outlined" style="font-size:1rem">local_fire_department</span> 인기 곡</button>
+      <button class="music-tab" onclick="showMusicTab('new')"><span class="material-symbols-outlined" style="font-size:1rem">new_releases</span> 최신 곡</button>
+      <button class="music-tab" onclick="showMusicTab('artist')"><span class="material-symbols-outlined" style="font-size:1rem">person</span> 가수 별</button>
     </div>
-    <div class="song-list" id="songListHome"></div>
-    <div class="song-no-result" id="songNoResult" style="display:none">검색 결과가 없어요 🎵</div>
-    <!-- 플레이어 바로가기 — 노래 목록 맨 아래 -->
-    <a href="player.html" class="song-item player-goto-item">
+
+    <!-- 인기 곡 -->
+    <div class="music-panel" id="panel-popular">
+      <div class="music-panel-header">
+        <span class="music-panel-label"><span class="material-symbols-outlined" style="font-size:1rem;color:var(--accent-gold);vertical-align:-2px">local_fire_department</span> 인기 곡</span>
+        <button class="music-more-btn" onclick="showMusicTab('popular-all')">전체 보기 →</button>
+      </div>
+      <div class="music-preview" id="previewPopular"></div>
+    </div>
+
+    <!-- 최신 곡 -->
+    <div class="music-panel" id="panel-new" style="display:none">
+      <div class="music-panel-header">
+        <span class="music-panel-label"><span class="material-symbols-outlined" style="font-size:1rem;color:var(--accent-gold);vertical-align:-2px">new_releases</span> 최신 곡</span>
+        <button class="music-more-btn" onclick="showMusicTab('new-all')">전체 보기 →</button>
+      </div>
+      <div class="music-preview" id="previewNew"></div>
+    </div>
+
+    <!-- 가수 별 -->
+    <div class="music-panel" id="panel-artist" style="display:none">
+      <div class="music-panel-header">
+        <span class="music-panel-label"><span class="material-symbols-outlined" style="font-size:1rem;color:var(--accent-gold);vertical-align:-2px">person</span> 가수 별</span>
+      </div>
+      <div class="artist-grid" id="artistGrid"></div>
+    </div>
+
+    <!-- 전체 곡 리스트 (인기/최신 전체보기) -->
+    <div class="music-panel" id="panel-full" style="display:none">
+      <div class="music-panel-header">
+        <span class="music-panel-label" id="fullListLabel">전체 곡</span>
+        <button class="music-more-btn" onclick="showMusicTab('popular')">← 돌아가기</button>
+      </div>
+      <div class="song-list" id="songListHome"></div>
+      <div class="song-no-result" id="songNoResult" style="display:none">검색 결과가 없어요 🎵</div>
+    </div>
+
+    <!-- 플레이어 바로가기 -->
+    <a href="player.html" class="song-item player-goto-item" style="margin-top:12px" id="playerGotoLink">
       <span class="song-num" style="color:var(--accent-gold)">▶</span>
       <div class="song-info">
-        <div class="song-title" style="color:var(--accent-gold)">가사 학습 플레이어</div>
-        <div class="song-artist">전체 노래 가사 학습하기</div>
+        <div class="song-title" style="color:var(--accent-gold)" id="gotoTitle">인기 곡 바로가기</div>
+        <div class="song-artist" id="gotoDesc">인기 · 추천 곡 가사 학습하기</div>
       </div>
       <span class="song-tag" style="border-color:var(--accent-gold);color:var(--accent-gold)">이동</span>
     </a>
@@ -138,7 +174,7 @@
 <!-- Favorites Modal -->
 <div class="modal-overlay" id="favModal" onclick="if(event.target===this)closeModal('favModal')">
   <div class="modal-box">
-    <div class="modal-header"><div class="modal-title">★ 즐겨찾기 단어</div>
+    <div class="modal-header"><div class="modal-title"><span class="material-symbols-outlined ms-filled" style="font-size:1.1rem;color:var(--accent-gold);vertical-align:-2px;margin-right:4px">star</span> 즐겨찾기 단어</div>
       <button class="modal-close" onclick="closeModal('favModal')">✕</button></div>
     <div class="modal-body" id="favModalBody"></div>
   </div>
@@ -146,7 +182,7 @@
 <!-- Kanji Modal -->
 <div class="modal-overlay" id="kanjiModal" onclick="if(event.target===this)closeModal('kanjiModal')">
   <div class="modal-box">
-    <div class="modal-header"><div class="modal-title">✓ 학습 완료 한자</div>
+    <div class="modal-header"><div class="modal-title"><span class="material-symbols-outlined ms-filled" style="font-size:1.1rem;color:var(--accent-green);vertical-align:-2px;margin-right:4px">check_circle</span> 학습 완료 한자</div>
       <button class="modal-close" onclick="closeModal('kanjiModal')">✕</button></div>
     <div class="modal-body" id="kanjiModalBody"></div>
   </div>

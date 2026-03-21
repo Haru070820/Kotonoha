@@ -10,7 +10,6 @@ window.onload = function () {
   document.getElementById('sw-korean').checked   = settings.korean   !== false;
   updateFavLimitDisplay();
   renderDataChips();
-  updateVoiceUI(settings.ttsGender || 'female');
   updateTodayCardUI(settings.todayCardMode || 'word');
 };
 
@@ -26,15 +25,7 @@ function updateTodayCardUI(mode) {
   if(btnK) btnK.classList.toggle('active', mode === 'kanji');
 }
 
-// ── TTS 음성 성별 ──
-function setVoiceGender(gender) {
-  saveSetting('ttsGender', gender);
-  updateVoiceUI(gender);
-}
-function updateVoiceUI(gender) {
-  document.getElementById('voiceFemale').classList.toggle('active', gender === 'female');
-  document.getElementById('voiceMale').classList.toggle('active', gender === 'male');
-}
+
 
 // ── 설정 저장 헬퍼 ──
 function saveSetting(key, val) {

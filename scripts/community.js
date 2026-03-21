@@ -9,15 +9,18 @@ const BADGE_COLOR = { question:'badge-question', share:'badge-share', tip:'badge
 
 // ── 샘플 데이터 (첫 방문 시 삽입) ──
 const samplePosts = [
-  { id:1, type:'tip', title:'猫 (고양이) 가사에서 나온 표현 정리', body:'「手放す(てばなす)」는 "놓아버리다"라는 뜻인데, 가사에서 감정적인 이별을 표현할 때 자주 쓰이는 표현이에요. 비슷한 표현으로 「手を離す」도 있어요.', author:'코토노하봇', date:'2025-01-10', tags:['N3','猫','DISH//'], likes:12, comments:[] },
-  { id:2, type:'question', title:'「しまった」와 「しまう」의 차이가 궁금해요', body:'가사에서 「飲み込んでしまった」처럼 ~てしまう 패턴이 자주 보이는데, 어떤 뉘앙스인지 알고 싶어요!', author:'일본어초보', date:'2025-01-09', tags:['문법','N4'], likes:8, comments:[{author:'코토노하봇',text:'~てしまう는 "~해버리다"로 행동의 완료나 후회의 뉘앙스를 담아요!',date:'2025-01-09'}] },
-  { id:3, type:'share', title:'Yorushika 노래로 일본어 공부하는 꿀팁', body:'ヒッチコックは 가사가 시적이라 문학적인 표현을 많이 배울 수 있어요. 특히 비유 표현이 풍부해서 N2~N1 준비에 도움이 됐어요.', author:'요루시카팬', date:'2025-01-08', tags:['Yorushika','N2','추천'], likes:24, comments:[] },
-  { id:4, type:'request', title:'King Gnu 노래 추가 요청드려요!', body:'カメレオン 다음으로 白日도 추가해주시면 좋겠어요. 가사가 정말 배울 게 많아서요!', author:'킹누팬', date:'2025-01-07', tags:['KingGnu','요청'], likes:15, comments:[] },
-  { id:5, type:'tip', title:'즐겨찾기 단어 효율적으로 쓰는 법', body:'가사에서 모르는 단어를 즐겨찾기하고, 나중에 JLPT 탭에서 같은 단어를 찾아 문맥을 비교하면 훨씬 잘 외워져요!', author:'학습매니아', date:'2025-01-06', tags:['학습법','팁'], likes:19, comments:[] },
+  { id:1, type:'tip', title:'「は」와 「が」의 차이점 — 주어를 나타내는 두 조사', body:'「は」는 이미 알고 있는 주제를 제시할 때, 「が」는 새로운 정보나 강조할 때 사용해요.\n\n例) 「私は学生です」→ "나는 학생입니다" (나라는 주제 제시)\n「誰が来ましたか？」→ "누가 왔어요?" (누구인지 강조)\n\n노래 가사에서도 이 차이를 주의 깊게 보면 뉘앙스가 달라져요!', author:'운영자', date:'2025-01-10', tags:['문법','N5','팁'], likes:28, comments:[] },
+  { id:2, type:'tip', title:'일상생활에서 자주 쓰이는 일본어 표현 모음', body:'매일 쓰는 기본 표현을 정리했어요!\n\n① いただきます — 잘 먹겠습니다\n② ごちそうさま — 잘 먹었습니다\n③ お疲れ様です — 수고하셨습니다\n④ よろしくお願いします — 잘 부탁드립니다\n⑤ 大丈夫です — 괜찮습니다\n\n일본 드라마나 노래에서도 정말 자주 들리는 표현이에요.', author:'운영자', date:'2025-01-08', tags:['일상','N5','N4','팁'], likes:35, comments:[] },
+  { id:3, type:'tip', title:'「～てしまう」와 「～ちゃう」 — 구어체 축약 패턴', body:'가사에서 자주 등장하는 「～てしまう」는 "~해버리다"라는 뜻으로, 후회나 완료의 뉘앙스가 있어요.\n\n구어체에서는 줄여서 「～ちゃう」로 쓰입니다.\n例) 忘れてしまう → 忘れちゃう (잊어버리다)\n食べてしまった → 食べちゃった (먹어버렸다)\n\n猫(고양이) 가사의 「飲み込んでしまった」도 같은 패턴이에요!', author:'운영자', date:'2025-01-06', tags:['문법','N4','N3','팁'], likes:22, comments:[] },
 ];
 
 let posts = JSON.parse(localStorage.getItem(LS_POSTS) || 'null');
-if (!posts) { posts = samplePosts; localStorage.setItem(LS_POSTS, JSON.stringify(posts)); }
+const POSTS_VERSION = 2; // bump to force refresh sample data
+if (!posts || localStorage.getItem('kotonoha_posts_ver') !== String(POSTS_VERSION)) {
+  posts = samplePosts;
+  localStorage.setItem(LS_POSTS, JSON.stringify(posts));
+  localStorage.setItem('kotonoha_posts_ver', String(POSTS_VERSION));
+}
 
 let currentTab = 'all';
 let selectedType = 'question';
@@ -49,9 +52,9 @@ function renderFeed() {
       </div>
       <div class="post-preview">${p.body.slice(0,80)}${p.body.length>80?'…':''}</div>
       <div class="post-footer">
-        <span class="post-stat">💬 ${p.comments.length}</span>
-        <span class="post-stat">❤️ ${p.likes}</span>
-        <span class="post-stat">🕐 ${p.date}</span>
+        <span class="post-stat"><span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:-2px">chat_bubble</span> ${p.comments.length}</span>
+        <span class="post-stat"><span class="material-symbols-outlined ms-filled" style="font-size:0.9rem;vertical-align:-2px;color:#e74c3c">favorite</span> ${p.likes}</span>
+        <span class="post-stat"><span class="material-symbols-outlined" style="font-size:0.9rem;vertical-align:-2px">schedule</span> ${p.date}</span>
         <span class="post-stat">by ${p.author}</span>
         <div class="post-tag-list">${p.tags.map(t=>`<span class="post-tag">${t}</span>`).join('')}</div>
       </div>
@@ -77,7 +80,7 @@ function filterTag(tag) {
     + list.map(p => `<div class="post-card" onclick="openDetail(${p.id})">
       <div class="post-top"><span class="post-badge ${BADGE_COLOR[p.type]}">${BADGE_MAP[p.type]}</span><div class="post-title">${p.title}</div></div>
       <div class="post-preview">${p.body.slice(0,80)}…</div>
-      <div class="post-footer"><span class="post-stat">❤️ ${p.likes}</span><div class="post-tag-list">${p.tags.map(t=>`<span class="post-tag">${t}</span>`).join('')}</div></div>
+      <div class="post-footer"><span class="post-stat"><span class="material-symbols-outlined ms-filled" style="font-size:0.9rem;vertical-align:-2px;color:#e74c3c">favorite</span> ${p.likes}</span><div class="post-tag-list">${p.tags.map(t=>`<span class="post-tag">${t}</span>`).join('')}</div></div>
     </div>`).join('');
 }
 
@@ -141,7 +144,7 @@ function openDetail(id) {
   document.getElementById('detailBadge').className    = `post-badge ${BADGE_COLOR[p.type]}`;
   document.getElementById('detailTitle').textContent  = p.title;
   document.getElementById('detailMeta').innerHTML     =
-    `<span>by ${p.author}</span><span>${p.date}</span><span>❤️ <b id="likeCount">${p.likes}</b> <button onclick="likePost(${id})" style="background:none;border:none;cursor:pointer;font-size:0.82rem;color:var(--accent-gold)">좋아요</button></span>${p.author==='나'?`<button class="post-delete-btn" onclick="closeDetail();deletePost(${id})">삭제</button>`:''}`;
+    `<span>by ${p.author}</span><span>${p.date}</span><span><span class="material-symbols-outlined ms-filled" style="font-size:0.9rem;vertical-align:-2px;color:#e74c3c">favorite</span> <b id="likeCount">${p.likes}</b> <button onclick="likePost(${id})" style="background:none;border:none;cursor:pointer;font-size:0.82rem;color:var(--accent-gold)">좋아요</button></span>${p.author==='나'?`<button class="post-delete-btn" onclick="closeDetail();deletePost(${id})">삭제</button>`:''}`;
   document.getElementById('detailBody').textContent   = p.body;
   renderComments(p);
   document.getElementById('detailModal').classList.add('open');

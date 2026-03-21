@@ -55,9 +55,15 @@
 <div class="layout">
   <aside class="sidebar">
     <div class="sidebar-title">SONG LIST · 곡 목록</div>
+    <!-- 카테고리 탭 -->
+    <div class="player-cat-tabs" style="display:flex;gap:4px;margin-bottom:10px;">
+      <button class="p-cat-tab active" onclick="setPlayerCat('all')" style="flex:1">전체</button>
+      <button class="p-cat-tab" onclick="setPlayerCat('popular')" style="flex:1">인기</button>
+      <button class="p-cat-tab" onclick="setPlayerCat('new')" style="flex:1">최신</button>
+    </div>
     <!-- 노래 검색 -->
     <div style="position:relative;margin-bottom:10px;">
-      <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.85rem;pointer-events:none">🔍</span>
+      <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.85rem;pointer-events:none"><span class="material-symbols-outlined" style="font-size:0.9rem">search</span></span>
       <input type="text" id="songSearchPlayer"
         style="width:100%;padding:8px 10px 8px 30px;border:1px solid var(--border);border-radius:8px;font-size:0.82rem;font-family:inherit;outline:none;background:var(--paper);color:var(--ink);"
         placeholder="노래 검색…" oninput="renderSongList()">
@@ -71,11 +77,11 @@
     </div>
     <div class="fav-bar">
       <span class="fav-bar-text">즐겨찾기: <strong id="favCountDisplay">0/50</strong>개</span>
-      <button class="view-favs-btn" onclick="toggleFavPanel()">★ 즐겨찾기 보기</button>
+      <button class="view-favs-btn" onclick="toggleFavPanel()"><span class="material-symbols-outlined ms-filled" style="font-size:0.85rem;vertical-align:-2px">star</span> 즐겨찾기 보기</button>
     </div>
     <div class="lyrics-container" id="lyricsContainer">
       <div class="empty-state">
-        <div class="big">🎵</div>
+        <div class="big"><span class="material-symbols-outlined" style="font-size:2.5rem">music_note</span></div>
         <div>왼쪽에서 노래를 선택하면 가사가 표시됩니다</div>
         <div style="margin-top:10px;font-size:0.8rem">단어에 <b>마우스를 올리면</b> 뜻 미리보기 · <b>클릭하면</b> 고정</div>
       </div>
@@ -94,7 +100,7 @@
   <div class="tt-pin-hint" id="tt-pin-hint">클릭하면 고정됩니다</div>
 </div>
 <div class="fav-panel" id="favPanel">
-  <div class="fav-panel-title">★ 즐겨찾기 단어장<button class="close-panel" onclick="toggleFavPanel()">✕</button></div>
+  <div class="fav-panel-title"><span class="material-symbols-outlined ms-filled" style="font-size:1rem;color:var(--accent-gold);vertical-align:-2px;margin-right:4px">star</span> 즐겨찾기 단어장<button class="close-panel" onclick="toggleFavPanel()">✕</button></div>
   <div id="favList"></div>
 </div>
 <script src="scripts/wordDB.js"></script>

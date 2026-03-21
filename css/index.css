@@ -86,6 +86,14 @@
 }
 .today-reading { font-size: 0.9rem; color: var(--font); opacity: 0.75; margin-top: 4px; }
 .today-meaning { font-size: 1rem; color: var(--font); font-weight: 600; }
+.today-example {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.72);
+  font-weight: 500;
+  text-align: center;
+}
 .today-level {
   background: var(--ink);
   color: var(--accent-gold);
@@ -398,17 +406,127 @@ body.dark .song-search-input { background: #1c1b2e; border-color: #2a2940; color
 }
 .song-no-result { text-align: center; padding: 20px; color: var(--muted); font-size: 0.85rem; }
 
-/* ── 좋아요/북마크 버튼 ── */
-.song-actions { display: flex; gap: 6px; align-items: center; }
-.song-like-btn, .song-bm-btn {
+/* ── 북마크/음악 버튼 ── */
+.song-actions { display: flex; gap: 4px; align-items: center; }
+.song-bm-btn, .song-music-btn {
   background: none; border: none; cursor: pointer; font-size: 1rem;
   padding: 3px 5px; border-radius: 6px; transition: all 0.15s;
   color: var(--muted); line-height: 1;
 }
-.song-like-btn:hover { color: #e74c3c; }
 .song-bm-btn:hover { color: var(--accent-gold); }
-.song-like-btn.on { color: #e74c3c; }
 .song-bm-btn.on { color: var(--accent-gold); }
+.song-music-btn:hover { color: var(--accent-blue); }
+
+/* ── 음악 바로 가기 팝업 ── */
+.music-popup {
+  position: fixed;
+  z-index: 500;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+  animation: popupFadeIn 0.15s ease;
+}
+@keyframes popupFadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.music-popup-title {
+  font-size: 0.75rem; font-weight: 700; color: var(--muted);
+  padding: 4px 8px 6px; letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border); margin-bottom: 2px;
+}
+.music-popup-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 8px;
+  font-size: 0.82rem; font-weight: 600;
+  text-decoration: none; color: var(--font);
+  transition: background 0.15s;
+}
+.music-popup-link:hover { background: var(--hover-bg); }
+.music-yt .material-symbols-outlined { color: #e74c3c; }
+.music-apple .material-symbols-outlined { color: #fc3c44; }
+.music-spotify .material-symbols-outlined { color: #1db954; }
+body.dark .music-popup { background: #1c1b2e; border-color: #2a2940; }
+body.dark .music-popup-title { border-color: #2a2940; }
+body.dark .music-popup-link { color: var(--font); }
+body.dark .music-popup-link:hover { background: rgba(212,160,23,0.1); }
+
+/* ── 음악 탭 네비게이션 ── */
+.music-tabs {
+  display: flex; gap: 6px; margin-bottom: 16px;
+}
+.music-tab {
+  display: flex; align-items: center; gap: 4px;
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px;
+  background: none; font-size: 0.82rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; color: var(--muted); transition: all 0.2s;
+}
+.music-tab:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+.music-tab.active {
+  background: var(--ink); color: var(--accent-gold); border-color: var(--ink);
+}
+
+/* ── 음악 패널 ── */
+.music-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.music-panel-label {
+  font-size: 0.88rem; font-weight: 700; color: var(--font);
+  display: flex; align-items: center; gap: 4px;
+}
+.music-more-btn {
+  background: none; border: 1px solid var(--border); border-radius: 16px;
+  padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
+  font-family: inherit; cursor: pointer; color: var(--muted);
+  transition: all 0.2s;
+}
+.music-more-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ── 아티스트 그리드 ── */
+.artist-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.artist-card {
+  border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; transition: all 0.2s;
+  background: var(--paper);
+}
+.artist-card:hover { border-color: var(--accent-gold); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.artist-img-wrap {
+  display: flex; align-items: center; justify-content: center;
+  height: 120px; text-decoration: none;
+}
+.artist-initial {
+  font-family: 'Noto Serif JP', serif; font-size: 2.8rem; font-weight: 900;
+  color: rgba(255,255,255,0.9); text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.artist-card-info {
+  padding: 10px 12px; display: flex; align-items: center; gap: 6px;
+}
+.artist-card-name {
+  font-size: 0.82rem; font-weight: 700; color: var(--font); flex: 1;
+}
+.artist-card-count {
+  font-size: 0.7rem; color: var(--muted);
+}
+.artist-fav-btn {
+  background: none; border: none; cursor: pointer; color: var(--muted);
+  padding: 2px; transition: all 0.15s; line-height: 1;
+}
+.artist-fav-btn:hover { color: #e74c3c; }
+.artist-fav-btn.on { color: #e74c3c; }
+
+/* ── 다크모드: 음악 탭/아티스트 ── */
+body.dark .music-tab { border-color: #2a2940; }
+body.dark .music-tab.active { background: var(--accent-gold); color: var(--ink); border-color: var(--accent-gold); }
+body.dark .music-more-btn { border-color: #2a2940; }
+body.dark .artist-card { background: #1c1b2e; border-color: #2a2940; }
+body.dark .artist-card:hover { border-color: var(--accent-gold); }
 
 /* ── 다크모드: hero / today-banner는 색상 변경 없이 유지 ── */
 body.dark .hero { background: var(--ink); }   /* 기존 다크 배경 그대로 */
@@ -422,6 +540,7 @@ body.dark .today-label { color: rgba(0,0,0,0.55); }
 body.dark .today-word { color: #1a1a2e; }
 body.dark .today-reading { color: rgba(0,0,0,0.55); }
 body.dark .today-meaning { color: #1a1a2e; }
+body.dark .today-example { color: rgba(0,0,0,0.6); }
 /* stats-bar 카드는 다크모드 오버라이드 */
 body.dark .stat-box { background: #1c1b2e; border-color: #2a2940; }
 body.dark .stat-num { color: var(--accent-gold); }
