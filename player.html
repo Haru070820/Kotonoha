@@ -56,11 +56,16 @@
   <aside class="sidebar">
     <div class="sidebar-title">SONG LIST · 곡 목록</div>
     <!-- 카테고리 탭 -->
-    <div class="player-cat-tabs" style="display:flex;gap:4px;margin-bottom:10px;">
-      <button class="p-cat-tab active" onclick="setPlayerCat('all')" style="flex:1">전체</button>
-      <button class="p-cat-tab" onclick="setPlayerCat('popular')" style="flex:1">인기</button>
-      <button class="p-cat-tab" onclick="setPlayerCat('new')" style="flex:1">최신</button>
+    <div class="player-cat-tabs" style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px;white-space:nowrap;scrollbar-width:none;-ms-overflow-style:none;">
+      <button class="p-cat-tab active" onclick="setPlayerCat('all')">전체</button>
+      <button class="p-cat-tab" onclick="setPlayerCat('popular')">인기</button>
+      <button class="p-cat-tab" onclick="setPlayerCat('new')">최신</button>
+      <button class="p-cat-tab" onclick="setPlayerCat('artist')">가수 별</button>
     </div>
+    <style>
+      .player-cat-tabs::-webkit-scrollbar { display: none; }
+      .p-cat-tab { flex-shrink: 0; padding: 5px 12px; }
+    </style>
     <!-- 노래 검색 -->
     <div style="position:relative;margin-bottom:10px;">
       <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.85rem;pointer-events:none"><span class="material-symbols-outlined" style="font-size:0.9rem">search</span></span>

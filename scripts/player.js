@@ -47,7 +47,7 @@ function applySettings() {
 
 // ── 필터 모드 (좋아요/북마크/카테고리 필터) ──
 function applyFilterMode(filter) {
-  if (filter === 'popular' || filter === 'new') {
+  if (filter === 'popular' || filter === 'new' || filter === 'artist') {
     setPlayerCat(filter);
     return;
   }
@@ -63,7 +63,7 @@ function setPlayerCat(cat){
   playerCat = cat;
   document.querySelectorAll('.p-cat-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.p-cat-tab').forEach(t=>{
-    if((cat==='all'&&t.textContent==='전체')||(cat==='popular'&&t.textContent==='인기')||(cat==='new'&&t.textContent==='최신'))
+    if((cat==='all'&&t.textContent==='전체')||(cat==='popular'&&t.textContent==='인기')||(cat==='new'&&t.textContent==='최신')||(cat==='artist'&&t.textContent==='가수 별'))
       t.classList.add('active');
   });
   renderSongList();
@@ -77,6 +77,7 @@ function renderSongList(filterIds) {
   // 카테고리 필터 적용
   if (playerCat === 'popular') list = list.filter(s => s.tag === '인기' || s.tag === '추천');
   else if (playerCat === 'new') list = list.filter(s => s.tag === '신규');
+  else if (playerCat === 'artist') list = [...list].sort((a,b)=>a.artist.localeCompare(b.artist));
   if (q) list = list.filter(s =>
     s.title.toLowerCase().includes(q) || s.titleKr.includes(q) || s.artist.toLowerCase().includes(q)
   );
