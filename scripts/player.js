@@ -9,7 +9,8 @@ const LS_LIKES = 'kotonoha_song_likes';
 const LS_BM    = 'kotonoha_song_bookmarks';
 let songLikes = JSON.parse(localStorage.getItem(LS_LIKES) || '[]');
 let songBMs   = JSON.parse(localStorage.getItem(LS_BM)    || '[]');
-let playerCat = 'all'; // 'all' | 'popular' | 'new'
+let playerCat = 'all'; // 'all' | 'popular' | 'new' | 'artist'
+let selectedArtist = null;
 
 // ── 음악 스트리밍 링크 ──
 const musicLinks = {
@@ -23,8 +24,14 @@ const musicLinks = {
 };
 
 // ── INIT ──
-function init() {
+async function init() {
   applySettings();
+  try {
+    const promises = artists.map(a => fetch(`data/${a.file}`).then(r => r.json()));
+    const arrays = await Promise.all(promises);
+    songs = arrays.flat();
+  } catch(e) { console.error('Failed to load songs', e); }
+  
   renderSongList();
   updateFavCount();
   renderFavPanel();
@@ -60,10 +67,11 @@ function applyFilterMode(filter) {
 
 // ── 카테고리 탭 전환 ──
 function setPlayerCat(cat){
+  if (cat !== 'artist') selectedArtist = null;
   playerCat = cat;
   document.querySelectorAll('.p-cat-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.p-cat-tab').forEach(t=>{
-    if((cat==='all'&&t.textContent==='전체')||(cat==='popular'&&t.textContent==='인기')||(cat==='new'&&t.textContent==='최신')||(cat==='artist'&&t.textContent==='가수 별'))
+    if((cat==='all'&&t.textContent==='전체')||(cat==='popular'&&t.textContent==='인기')||(cat==='new'&&t.textContent==='최신')||(cat==='artist'&&t.textContent==='가수'))
       t.classList.add('active');
   });
   renderSongList();
@@ -71,17 +79,36 @@ function setPlayerCat(cat){
 
 // ── 노래 리스트 렌더 ──
 function renderSongList(filterIds) {
+  if (playerCat === 'artist' && !selectedArtist && !filterIds) {
+    document.getElementById('songList').innerHTML = artists.map(a => `
+      <div class="song-item" onclick="selectArtist('${a.name.replace(/'/g, "\\'")}')" style="cursor:pointer; display:flex; align-items:center; padding:12px 16px;">
+        <div class="s-title" style="font-size:1.05rem;"><span class="material-symbols-outlined" style="vertical-align:-4px; margin-right:6px; color:var(--accent-gold);">mic</span> ${a.name}</div>
+      </div>
+    `).join('');
+    return;
+  }
+
   const q = (document.getElementById('songSearchPlayer')?.value || '').toLowerCase().trim();
   let list = songs;
   if (filterIds) list = list.filter(s => filterIds.includes(s.id));
   // 카테고리 필터 적용
   if (playerCat === 'popular') list = list.filter(s => s.tag === '인기' || s.tag === '추천');
   else if (playerCat === 'new') list = list.filter(s => s.tag === '신규');
-  else if (playerCat === 'artist') list = [...list].sort((a,b)=>a.artist.localeCompare(b.artist));
+  else if (playerCat === 'artist' && selectedArtist) {
+    list = list.filter(s => s.artist === selectedArtist);
+  }
   if (q) list = list.filter(s =>
     s.title.toLowerCase().includes(q) || s.titleKr.includes(q) || s.artist.toLowerCase().includes(q)
   );
-  document.getElementById('songList').innerHTML = list.map(s => {
+  
+  let html = '';
+  if (playerCat === 'artist' && selectedArtist) {
+    html += `<div class="song-item" onclick="selectArtist(null)" style="cursor:pointer; background:var(--paper); margin-bottom:10px; text-align:center; font-weight:bold; color:var(--accent-gold);">
+      ← 가수 목록으로 돌아가기
+    </div>`;
+  }
+
+  html += list.map(s => {
     const bm = songBMs.includes(s.id);
     return `<div class="song-item${currentSong?.id===s.id?' active':''}" onclick="loadSong(${s.id})">
       <div class="s-title">${s.title}</div>
@@ -95,6 +122,15 @@ function renderSongList(filterIds) {
   }).join('') + (list.length===0
     ? '<div style="padding:16px;text-align:center;color:var(--muted);font-size:0.82rem;">결과 없음</div>'
     : '');
+
+  document.getElementById('songList').innerHTML = html;
+}
+
+function selectArtist(artistName) {
+  selectedArtist = artistName;
+  const searchInput = document.getElementById('songSearchPlayer');
+  if (searchInput) searchInput.value = '';
+  renderSongList();
 }
 
 // ── 북마크 ──
