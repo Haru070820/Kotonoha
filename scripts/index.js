@@ -4,13 +4,13 @@ if (settings.darkMode) document.body.classList.add('dark');
 
 // ── 홈 노래 목록 ──
 const homeSongs = [
-  { id:1, title:'猫',         titleKr:'고양이',    artist:'DISH//',   tag:'추천' },
-  { id:3, title:'カメレオン',  titleKr:'카멜레온',  artist:'King Gnu', tag:'인기' },
-  { id:4, title:'ヒッチコック',titleKr:'히치콕',   artist:'Yorushika', tag:'추천' },
-  { id:5, title:'沈丁花',     titleKr:'서향꽃',   artist:'DISH//',   tag:'신규' },
-  { id:6, title:'忘れてください', titleKr:'잊어주세요', artist:'Yorushika', tag:'추천' },
-  { id:7, title:'悪食',       titleKr:'악식',     artist:'pompadols', tag:'신규' },
-  { id:8, title:'Sparkle',   titleKr:'스파클',   artist:'RADWIMPS', tag:'인기' },
+  { id:1, title:'猫',         titleKr:'고양이',    artist:'DISH//',   tag:'추천', level:'N3' },
+  { id:3, title:'カメレオン',  titleKr:'카멜레온',  artist:'King Gnu', tag:'인기', level:'N2' },
+  { id:4, title:'ヒッチコック',titleKr:'히치콕',   artist:'Yorushika', tag:'추천', level:'N3' },
+  { id:5, title:'沈丁花',     titleKr:'서향꽃',   artist:'DISH//',   tag:'신규', level:'N4' },
+  { id:6, title:'忘れてください', titleKr:'잊어주세요', artist:'Yorushika', tag:'추천', level:'N3' },
+  { id:7, title:'悪食',       titleKr:'악식',     artist:'pompadols', tag:'신규', level:'N3' },
+  { id:8, title:'Sparkle',   titleKr:'스파클',   artist:'RADWIMPS', tag:'인기', level:'N2' },
 ];
 
 // ── 음악 스트리밍 링크 ──
@@ -116,7 +116,10 @@ function songCardHTML(s, i){
       <button class="song-bm-btn${bm?' on':''}" onclick="toggleBookmark(${s.id},this)" title="북마크"><span class="material-symbols-outlined${bm?' ms-filled':''}" style="font-size:1.1rem">bookmark</span></button>
       <button class="song-music-btn" onclick="openMusicPopup(event,${s.id})" title="음악 듣기"><span class="material-symbols-outlined" style="font-size:1.1rem">headphones</span></button>
     </div>
-    <span class="song-tag">${s.tag}</span>
+    <div style="display:flex; gap:6px; align-items:center;">
+      ${s.level ? `<span class="song-tag" style="color:var(--accent-gold); border-color:var(--accent-gold); font-weight:700">${s.level}</span>` : ''}
+      <span class="song-tag">${s.tag}</span>
+    </div>
   </a>`;
 }
 

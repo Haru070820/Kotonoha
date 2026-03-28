@@ -281,3 +281,44 @@ body.dark .music-popup { background: #1c1b2e; border-color: #2a2940; }
 body.dark .music-popup-title { border-color: #2a2940; }
 body.dark .music-popup-link { color: var(--font); }
 body.dark .music-popup-link:hover { background: rgba(212,160,23,0.1); }
+
+/* ── 문법 요소 토큰 ── */
+.grammar-token {
+  display: inline;
+  cursor: pointer;
+  border-bottom: 2px dashed #b8954a;
+  padding: 0 1px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.grammar-token:hover {
+  background: rgba(184, 149, 74, 0.15);
+}
+/* 설정 창에서 문법 모드가 꺼진 경우 스타일 제거 */
+html[data-grammar="0"] .grammar-token {
+  border-bottom: none;
+  cursor: default;
+}
+html[data-grammar="0"] .grammar-token:hover {
+  background: none;
+}
+
+/* ── 노래 난이도 배지 ── */
+.s-level-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+  background: var(--ink);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+  line-height: 1;
+  text-transform: uppercase;
+}
+body.dark .s-level-badge {
+  background: var(--accent-gold);
+  color: var(--ink);
+}
