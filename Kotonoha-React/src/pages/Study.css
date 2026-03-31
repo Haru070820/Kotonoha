@@ -1,0 +1,43 @@
+.study-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.study-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  text-decoration: none;
+}
+
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: #E8F3FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-blue);
+  margin-bottom: 16px;
+}
+
+.study-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.study-subtitle {
+  font-size: 14px;
+  color: var(--color-text-sub);
+  font-weight: 500;
+}
+
+@media (min-width: 769px) {
+  .study-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

@@ -1,0 +1,128 @@
+/* =============================================
+   Player.module.css — 가사 학습 페이지 전용
+   ============================================= */
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: calc(100vh - 60px);
+}
+
+.sidebar {
+  background: #fff;
+  border-right: 1px solid var(--border);
+  padding: 20px 16px;
+  overflow-y: auto;
+  max-height: calc(100vh - 60px);
+  position: sticky;
+  top: 60px;
+}
+
+.sidebarTitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.songItem {
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+  display: block;
+  text-decoration: none;
+  color: var(--font);
+}
+.songItem:hover { background: var(--paper-warm); border-color: var(--border); }
+.songItem.active { background: rgba(212,160,23,0.1); border-color: var(--accent-gold); }
+
+.sTitle { font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 0.9rem; }
+.sArtist { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.sTag {
+  display: inline-block;
+  font-size: 0.65rem;
+  background: var(--paper-warm);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-top: 4px;
+  color: var(--muted);
+}
+.sLevelBadge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+  background: var(--ink);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+
+.pCatTab {
+  padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px;
+  background: none; font-size: 0.75rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; color: var(--muted); transition: all 0.15s;
+}
+.pCatTab:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+.pCatTab.active { background: var(--ink); color: var(--accent-gold); border-color: var(--ink); }
+
+.playerArea { padding: 40px 60px; }
+.songHeader {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.songHeader h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.songHeader p { color: var(--muted); font-size: 0.9rem; }
+
+.lyricsContainer { max-width: 720px; margin: 0 auto; }
+.lyricsRow {
+  text-align: center;
+  margin-bottom: 52px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+.lyricsRow:last-child { border-bottom: none; }
+.lyricsJpLine {
+  font-size: 22px;
+  line-height: 1.9;
+  margin-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 500;
+  color: var(--font);
+}
+.lyricsPronLine { font-size: 14px; color: var(--muted); margin-bottom: 5px; line-height: 1.7; }
+.lyricsKoLine { font-size: 14px; color: #b8954a; line-height: 1.7; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; max-height: 200px; display: none; }
+  .playerArea { padding: 24px 20px; }
+}
+
+:global(body.dark) .sidebar { background: #1c1b2e; border-color: #2a2940; }
+:global(body.dark) .songItem { color: var(--font); }
+:global(body.dark) .songItem:hover { background: #22213a; border-color: #2a2940; }
+:global(body.dark) .sTag { background: #22213a; border-color: #363558; }
+:global(body.dark) .pCatTab { border-color: #2a2940; }
+:global(body.dark) .pCatTab.active { background: var(--accent-gold); color: var(--ink); }

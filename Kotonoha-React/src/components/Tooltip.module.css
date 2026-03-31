@@ -1,0 +1,43 @@
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  min-width: 220px;
+  max-width: 280px;
+  z-index: 999;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+  font-size: 0.88rem;
+  pointer-events: none;
+}
+.tooltip.show { pointer-events: auto; }
+.pinnedState { border: 2px solid var(--accent-gold); pointer-events: auto; }
+
+.ttHeader { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 10px; }
+.ttWord { font-family: 'Noto Serif JP', serif; font-size: 1.9rem; font-weight: 900; color: var(--accent-gold); line-height: 1; }
+.ttKanji { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 3px; }
+.ttReading { font-size: 0.82rem; color: rgba(212,160,23,0.82); margin-bottom: 10px; }
+.ttDivider { height: 1px; background: rgba(255,255,255,0.14); margin: 8px 0; }
+.ttMeaning { font-size: 0.82rem; color: rgba(255,255,255,0.88); line-height: 1.7; list-style: none; padding: 0; }
+.ttMeaning li { padding-left: 18px; position: relative; margin-bottom: 2px; }
+
+.ttFavBtn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  background: none;
+  border: 1px solid rgba(212,160,23,0.45);
+  color: var(--accent-gold);
+  border-radius: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.ttFavBtn:hover { background: rgba(212,160,23,0.18); }
+.ttFavBtn.on { background: rgba(212,160,23,0.2); border-color: var(--accent-gold); }
+.ttPinHint { font-size: 0.68rem; color: rgba(255,255,255,0.32); text-align: center; margin-top: 7px; }

@@ -1,0 +1,276 @@
+/* =============================================
+   Home.css — 홈 페이지 오리지널 복구
+   ============================================= */
+
+.hero {
+  background: var(--ink);
+  padding: 80px 24px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '言の葉';
+  position: absolute;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 18rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.025);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.hero h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: var(--accent-gold);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.hero h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.hero p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  max-width: 480px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+.today-banner-wrap {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+.today-banner {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #e8b84b 100%);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 8px 32px rgba(212,160,23,0.3);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.today-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(212,160,23,0.4);
+}
+.today-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--font);
+  opacity: 0.7;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.today-word {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--font);
+  line-height: 1;
+}
+.today-reading { font-size: 0.9rem; color: var(--font); opacity: 0.75; margin-top: 4px; }
+.today-meaning { font-size: 1rem; color: var(--font); font-weight: 600; }
+.today-example {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.72);
+  font-weight: 500;
+  text-align: center;
+}
+.today-level {
+  background: var(--ink);
+  color: var(--accent-gold);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--font);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title .en {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 300;
+}
+.section { margin-bottom: 48px; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  color: var(--font);
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--accent-gold));
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.card:hover::before { transform: scaleX(1); }
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  border-color: transparent;
+}
+.card-icon { font-size: 2rem; margin-bottom: 12px; }
+.card-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+.card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+.card-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: var(--card-accent, var(--accent-gold));
+  color: white;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.card-music  { --card-accent: var(--accent-red); }
+.card-kana   { --card-accent: var(--accent-green); }
+.card-jlpt   { --card-accent: var(--accent-blue); }
+.card-kanji  { --card-accent: #7d3c98; }
+
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.stat-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-box.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.stat-box.clickable:hover {
+  border-color: var(--accent-gold);
+  background: var(--hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(212,160,23,0.15);
+}
+.stat-num {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--font);
+}
+.stat-num span { font-size: 1rem; opacity: 0.7; }
+.stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+
+.song-list { display: flex; flex-direction: column; gap: 8px; }
+.song-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--font);
+  transition: all 0.2s;
+}
+.song-item:hover {
+  background: var(--hover-bg);
+  border-color: var(--accent-gold);
+  transform: translateX(4px);
+}
+.song-num {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.2rem;
+  color: var(--muted);
+  min-width: 28px;
+}
+.song-info { flex: 1; }
+.song-title {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.song-artist { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.song-tag {
+  background: var(--paper-warm);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 2rem; }
+  .today-banner { flex-direction: column; align-items: flex-start; }
+}
+
+/* Dark mode overrides (added dynamically if root has .dark, keeping hero dark always) */
+body.dark .hero { background: var(--ink); }
+body.dark .hero::before { color: rgba(255,255,255,0.02); }
+body.dark .today-banner-wrap { background: transparent; }
+body.dark .today-banner { background: linear-gradient(135deg, #c8920e 0%, #d4a017 60%, #b8820c 100%); }
+body.dark .today-label, body.dark .today-reading { color: rgba(0,0,0,0.55); }
+body.dark .today-word, body.dark .today-meaning { color: #1a1a2e; }
+body.dark .today-example { color: rgba(0,0,0,0.6); }
+
+body.dark .stat-box { background: #1c1b2e; border-color: #2a2940; }
+body.dark .stat-num { color: var(--accent-gold); }
+body.dark .section-title { color: var(--font); }
+body.dark .song-item { background: #1c1b2e; border-color: #2a2940; }
+body.dark .song-item:hover { background: #22213a; border-color: var(--accent-gold); }
+body.dark .song-tag { background: #22213a; border-color: #363558; color: var(--muted); }
+body.dark .card { background: #1c1b2e; border-color: #2a2940; }
+body.dark .card-title { color: var(--font); }

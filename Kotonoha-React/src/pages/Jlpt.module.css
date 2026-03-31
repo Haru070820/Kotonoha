@@ -1,0 +1,109 @@
+/* =============================================
+   Jlpt.module.css — JLPT 단어 학습 페이지
+   ============================================= */
+
+.pageWrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+/* ── 레벨 탭 ── */
+.levelTabs {
+  display: flex; gap: 6px; margin-bottom: 24px; justify-content: center;
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  padding: 6px; width: fit-content; margin-left: auto; margin-right: auto;
+}
+.levelTab {
+  padding: 8px 22px; border-radius: 10px; border: none; cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 1rem; font-weight: 700;
+  transition: all 0.2s; background: none; color: var(--muted);
+}
+.levelTab.active { color: #fff; }
+
+/* ── 오늘의 단어 하이라이트 ── */
+.todayHighlight {
+  background: linear-gradient(135deg, rgba(212,160,23,0.08) 0%, rgba(212,160,23,0.03) 100%);
+  border: 2px solid var(--accent-gold); border-radius: 16px;
+  padding: 24px; margin-bottom: 28px;
+  display: flex; align-items: center; gap: 24px;
+}
+.todayBadge {
+  background: var(--accent-gold); color: var(--ink); border-radius: 8px;
+  padding: 4px 12px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+}
+.todayInfo { flex: 1; }
+.todayWord { font-family: 'Noto Serif JP', serif; font-size: 2.5rem; font-weight: 900; }
+.todayReading { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+.todayMeaning { font-size: 0.95rem; font-weight: 600; margin-top: 6px; }
+
+/* ── 필터 바 ── */
+.filterBar {
+  display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;
+}
+.filterBar input, .filterBar select {
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: inherit; font-size: 0.85rem; outline: none; background: #fff;
+  color: var(--font); transition: border-color 0.2s;
+}
+.filterBar input:focus, .filterBar select:focus { border-color: var(--accent-gold); }
+.statsPill {
+  background: var(--ink); color: var(--accent-gold); border-radius: 20px;
+  padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+}
+
+/* ── 단어 카드 그리드 ── */
+.wordGrid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;
+}
+.wordCard {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px; transition: all 0.2s; position: relative;
+  border-left: 4px solid var(--level-color, var(--border));
+}
+.wordCard:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+
+.wcHeader { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+.wcWord { font-family: 'Noto Serif JP', serif; font-size: 1.6rem; font-weight: 900; color: var(--font); }
+.wcKanji { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.wcReading { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+.wcDivider { height: 1px; background: var(--border); margin-bottom: 10px; }
+.wcPos {
+  font-size: 0.7rem; background: var(--paper-warm); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 6px; display: inline-block; margin-bottom: 6px; color: var(--muted);
+}
+.wcMeaning { font-size: 0.85rem; color: var(--font); line-height: 1.6; }
+
+.wcFav {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  padding: 4px 10px; cursor: pointer; font-size: 1rem; transition: all 0.2s; color: var(--muted);
+}
+.wcFavOn {
+  background: rgba(212,160,23,0.1); border-color: var(--accent-gold); color: var(--accent-gold);
+}
+
+.ttsBtn {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  padding: 2px 6px; cursor: pointer; color: var(--muted); transition: all 0.15s;
+  display: inline-flex; align-items: center;
+}
+.ttsBtn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ── 더 보기 버튼 ── */
+.loadMore {
+  width: 100%; padding: 14px; background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; cursor: pointer; font-family: inherit; font-size: 0.9rem;
+  font-weight: 600; color: var(--muted); margin-top: 16px; transition: all 0.2s;
+}
+.loadMore:hover { background: var(--paper-warm); color: var(--ink); }
+
+/* ── 다크모드 ── */
+:global(body.dark) .levelTabs { background: #1c1b2e; border-color: #2a2940; }
+:global(body.dark) .wordCard { background: #1c1b2e; border-color: #2a2940; }
+:global(body.dark) .wordCard:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+:global(body.dark) .filterBar input,
+:global(body.dark) .filterBar select { background: #1c1b2e; border-color: #2a2940; color: var(--font); }
+:global(body.dark) .loadMore { background: #1c1b2e; border-color: #2a2940; }
+:global(body.dark) .wcPos { background: #22213a; border-color: #363558; }
+:global(body.dark) .todayHighlight { border-color: rgba(212,160,23,0.5); }
+
+@media (max-width: 600px) {
+  .todayHighlight { flex-direction: column; text-align: center; }
+  .todayWord { font-size: 2rem; }
+}

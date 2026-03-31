@@ -1,0 +1,93 @@
+.player-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-container.center {
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.player-header {
+  padding-bottom: 24px;
+}
+
+.back-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: background-color 0.2s;
+}
+
+.back-btn-icon:hover {
+  background-color: #f0f0f0;
+}
+
+.back-btn {
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: var(--color-blue);
+  color: white;
+  font-weight: 600;
+}
+
+.song-info-header {
+  margin-bottom: 32px;
+}
+
+.player-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: 8px;
+}
+
+.player-artist {
+  font-size: 16px;
+  color: var(--color-text-sub);
+  font-weight: 500;
+}
+
+.lyrics-card {
+  padding: 32px;
+  min-height: 400px;
+}
+
+.lyrics-content {
+  font-size: 20px;
+  line-height: 2.2;
+  color: var(--color-text-main);
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.lyric-line {
+  margin-bottom: 16px;
+}
+
+/* Furigana Ruby Styles */
+.ruby-text {
+  cursor: help;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column-reverse; /* Usually browsers handle ruby naturally, but standard ruby CSS handles rt positioning */
+}
+
+ruby {
+  ruby-align: center;
+}
+
+rt {
+  font-size: 0.5em;
+  color: var(--color-blue);
+  font-weight: 600;
+  user-select: none;
+}

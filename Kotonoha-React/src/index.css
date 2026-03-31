@@ -1,0 +1,108 @@
+/* =============================================
+   index.css — 言の葉 코토노하 공용 스타일 (React Migration)
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap');
+
+:root {
+  --ink: #1a1a2e;
+  --ink-light: #2d2d4e;
+  --font: #1a1a2e;        /* 라이트모드 텍스트 전용 */
+  --text: #1a1a2e;        /* 본문 폰트 색상 (라이트) */
+  --paper: #faf8f4;
+  --paper-warm: #f5f0e8;
+  --accent-red: #c0392b;
+  --accent-gold: #d4a017;
+  --accent-green: #2D5A27;
+  --accent-blue: #1a5276;
+  --muted: #7f8c8d;
+  --border: #e0d8cc;
+  --hover-bg: rgba(212,160,23,0.08);
+  /* JLPT 레벨 색상 */
+  --n5: #27ae60;
+  --n4: #2980b9;
+  --n3: #8e44ad;
+  --n2: #e67e22;
+  --n1: #c0392b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--font);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+/* Base Layout Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.2rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+@media (max-width: 900px) {
+  .container { padding: 24px 16px; }
+}
+
+/* ── 다크모드 ── */
+body.dark {
+  --ink: #14131f;             
+  --ink-light: #1c1b2e;
+  --font: #f0ede8;            
+  --text: #f0ede8;            
+  --paper: #14131f;
+  --paper-warm: #1c1b2e;
+  --muted: #8a8d9e;
+  --border: #2a2940;
+  --hover-bg: rgba(212,160,23,0.1);
+  color: var(--font); 
+  background: var(--paper); 
+}

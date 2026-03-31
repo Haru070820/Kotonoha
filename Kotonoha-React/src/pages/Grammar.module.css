@@ -1,0 +1,78 @@
+/* =============================================
+   Grammar.module.css — 문법 포인트 리스트
+   ============================================= */
+
+.pageWrap { max-width: 800px; margin: 0 auto; padding: 32px 24px 80px; }
+
+.pageTitle {
+  font-family: 'Noto Serif JP', serif; font-size: 1.6rem; font-weight: 900;
+  margin-bottom: 6px; color: var(--font); text-align: center;
+}
+.pageDesc {
+  text-align: center; font-size: 0.88rem; color: var(--muted); margin-bottom: 32px;
+}
+
+.searchBar {
+  display: flex; gap: 10px; margin-bottom: 28px; align-items: center;
+}
+.searchBar input {
+  flex: 1; padding: 10px 16px; border: 1px solid var(--border); border-radius: 10px;
+  font-family: inherit; font-size: 0.9rem; outline: none; background: #fff;
+  color: var(--font); transition: border-color 0.2s;
+}
+.searchBar input:focus { border-color: var(--accent-gold); }
+.countBadge {
+  background: var(--ink); color: var(--accent-gold); border-radius: 20px;
+  padding: 6px 14px; font-size: 0.78rem; font-weight: 700; white-space: nowrap;
+}
+
+.grammarList { display: flex; flex-direction: column; gap: 12px; }
+
+.grammarCard {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 24px; transition: all 0.2s; cursor: pointer;
+}
+.grammarCard:hover {
+  transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border-color: var(--accent-gold);
+}
+.grammarCard.expanded { border-color: var(--accent-gold); background: rgba(212,160,23,0.03); }
+
+.gcHeader { display: flex; align-items: center; gap: 14px; }
+.gcToken {
+  font-family: 'Noto Serif JP', serif; font-size: 2rem; font-weight: 900;
+  color: var(--accent-gold); min-width: 60px; text-align: center;
+  border-bottom: 3px dashed rgba(184,149,74,0.4); padding-bottom: 2px;
+}
+.gcInfo { flex: 1; }
+.gcTitle { font-family: 'Noto Sans KR', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--font); }
+.gcArrow {
+  font-size: 1.2rem; color: var(--muted); transition: transform 0.2s;
+}
+.gcArrow.open { transform: rotate(180deg); }
+
+.gcBody {
+  overflow: hidden; max-height: 0; transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 0 0 74px;
+}
+.gcBody.open {
+  max-height: 300px; padding: 14px 0 0 74px;
+}
+.gcDesc {
+  font-size: 0.88rem; color: var(--font); line-height: 1.8;
+  border-top: 1px solid var(--border); padding-top: 14px;
+}
+
+.ttsBtn {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  padding: 4px 8px; cursor: pointer; color: var(--muted); transition: all 0.15s;
+  display: inline-flex; align-items: center;
+}
+.ttsBtn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ── 다크모드 ── */
+:global(body.dark) .grammarCard { background: #1c1b2e; border-color: #2a2940; }
+:global(body.dark) .grammarCard:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+:global(body.dark) .grammarCard.expanded { background: rgba(212,160,23,0.05); }
+:global(body.dark) .searchBar input { background: #1c1b2e; border-color: #2a2940; color: var(--font); }
+:global(body.dark) .gcDesc { border-top-color: #2a2940; }
