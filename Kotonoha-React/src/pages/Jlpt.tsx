@@ -1,6 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styles from './Jlpt.module.css';
 import { jlptWords } from '../data/jlptDB';
+import { loadAllJlptWords, loadJlptFromCache } from '../services/jlptService';
+import type { JlptWordsByLevel } from '../services/jlptService';
 import { useTTS } from '../hooks/useTTS';
 import { useFavorites } from '../hooks/useFavorites';
 import { MdVolumeUp } from 'react-icons/md';
@@ -17,14 +19,52 @@ export default function Jlpt() {
   const [posFilter, setPosFilter] = useState('');
   const [displayCount, setDisplayCount] = useState(12);
   const { speak } = useTTS();
-  const { favs, toggleFav, isFav } = useFavorites();
+  const { toggleFav, isFav } = useFavorites();
 
-  const words = (jlptWords as any)[currentLevel] || [];
+  // API 데이터 상태
+  const [apiData, setApiData] = useState<JlptWordsByLevel | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [loadingLevel, setLoadingLevel] = useState(0);
+  const [dataSource, setDataSource] = useState<'local' | 'cache' | 'api'>('local');
+
+  // 시작 시 캐시 확인 → API 호출
+  useEffect(() => {
+    const cached = loadJlptFromCache();
+    if (cached && cached.N5.length > 0) {
+      setApiData(cached);
+      setDataSource('cache');
+    } else {
+      fetchFromApi();
+    }
+  }, []);
+
+  const fetchFromApi = async () => {
+    setLoading(true);
+    try {
+      const data = await loadAllJlptWords((level) => {
+        setLoadingLevel(level);
+      });
+      setApiData(data);
+      setDataSource('api');
+    } catch (err) {
+      console.warn('JLPT API 로드 실패, 로컬 데이터 사용:', err);
+      setDataSource('local');
+    }
+    setLoading(false);
+  };
+
+  // API 데이터 우선, 없으면 로컬 fallback
+  const words = useMemo(() => {
+    if (apiData && apiData[currentLevel] && apiData[currentLevel].length > 0) {
+      return apiData[currentLevel];
+    }
+    return (jlptWords as any)[currentLevel] || [];
+  }, [apiData, currentLevel]);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
     return words.filter((w: any) => {
-      const matchQ = !q || w.word.includes(q) || w.reading.toLowerCase().includes(q) || w.meanings.join().includes(q);
+      const matchQ = !q || w.word.includes(q) || w.reading.toLowerCase().includes(q) || w.meanings.join().toLowerCase().includes(q);
       const matchPos = !posFilter || w.pos === posFilter;
       return matchQ && matchPos;
     });
@@ -34,6 +74,7 @@ export default function Jlpt() {
 
   // 오늘의 단어
   const todayWord = useMemo(() => {
+    if (words.length === 0) return null;
     const d = new Date();
     return words[d.getDate() % words.length];
   }, [words]);
@@ -57,7 +98,7 @@ export default function Jlpt() {
   // 품사 목록 추출
   const posList = useMemo(() => {
     const s = new Set<string>();
-    words.forEach((w: any) => s.add(w.pos));
+    words.forEach((w: any) => { if (w.pos) s.add(w.pos); });
     return Array.from(s);
   }, [words]);
 
@@ -65,6 +106,14 @@ export default function Jlpt() {
 
   return (
     <div className={styles.pageWrap}>
+      {/* 로딩 표시 */}
+      {loading && (
+        <div className={styles.loadingBar}>
+          <span className="material-symbols-outlined" style={{ fontSize: '1rem', animation: 'spin 1s linear infinite', marginRight: 6 }}>sync</span>
+          JLPT 단어 불러오는 중... N{loadingLevel}
+        </div>
+      )}
+
       {/* 레벨 탭 */}
       <div className={styles.levelTabs}>
         {(['N5','N4','N3','N2','N1'] as Level[]).map(lv => (
@@ -75,8 +124,19 @@ export default function Jlpt() {
             onClick={() => switchLevel(lv)}
           >
             {lv}
+            {apiData && <span style={{ fontSize: '0.6rem', opacity: 0.7, marginLeft: 3 }}>({(apiData[lv] || []).length})</span>}
           </button>
         ))}
+      </div>
+
+      {/* 데이터 출처 */}
+      <div style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--muted)', marginBottom: 8 }}>
+        {dataSource === 'api' && '✓ JLPT Vocabulary API에서 불러옴'}
+        {dataSource === 'cache' && (
+          <>✓ 캐시에서 불러옴 <button onClick={fetchFromApi} style={{ background: 'none', border: 'none', color: 'var(--accent-gold)', cursor: 'pointer', fontSize: '0.7rem', textDecoration: 'underline' }}>새로고침</button></>
+        )}
+        {dataSource === 'local' && '⚠ 로컬 데이터 사용 중'}
+        {' · '}{currentLevel}: {words.length}개 단어
       </div>
 
       {/* 오늘의 단어 */}
@@ -99,10 +159,12 @@ export default function Jlpt() {
           value={query}
           onChange={e => { setQuery(e.target.value); setDisplayCount(12); }}
         />
-        <select value={posFilter} onChange={e => { setPosFilter(e.target.value); setDisplayCount(12); }}>
-          <option value="">전체 품사</option>
-          {posList.map(p => <option key={p} value={p}>{p}</option>)}
-        </select>
+        {posList.length > 0 && (
+          <select value={posFilter} onChange={e => { setPosFilter(e.target.value); setDisplayCount(12); }}>
+            <option value="">전체 품사</option>
+            {posList.map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
+        )}
         <span className={styles.statsPill}>{filtered.length}개</span>
       </div>
 
@@ -132,7 +194,7 @@ export default function Jlpt() {
               </div>
               <div className={styles.wcReading}>{w.reading}</div>
               <div className={styles.wcDivider}></div>
-              <span className={styles.wcPos}>{w.pos}</span>
+              {w.pos && <span className={styles.wcPos}>{w.pos}</span>}
               <div className={styles.wcMeaning}>
                 {w.meanings.map((m: string, i: number) => (
                   <React.Fragment key={i}>{i + 1}. {m}{i < w.meanings.length - 1 && <br />}</React.Fragment>
@@ -142,6 +204,13 @@ export default function Jlpt() {
           );
         })}
       </div>
+
+      {/* 결과 없음 */}
+      {visible.length === 0 && !loading && (
+        <div style={{ textAlign: 'center', padding: 40, color: 'var(--muted)' }}>
+          {query ? '검색 결과가 없습니다' : '해당 단어가 없습니다'}
+        </div>
+      )}
 
       {/* 더 보기 */}
       {filtered.length > displayCount && (

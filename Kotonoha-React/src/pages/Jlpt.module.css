@@ -93,6 +93,14 @@
 }
 .loadMore:hover { background: var(--paper-warm); color: var(--ink); }
 
+/* ── 로딩 바 ── */
+.loadingBar {
+  background: var(--ink); padding: 10px 24px; text-align: center;
+  color: var(--accent-gold); font-size: 0.82rem; font-weight: 600;
+  border-radius: 10px; margin-bottom: 16px; display: flex;
+  align-items: center; justify-content: center;
+}
+
 /* ── 다크모드 ── */
 :global(body.dark) .levelTabs { background: #1c1b2e; border-color: #2a2940; }
 :global(body.dark) .wordCard { background: #1c1b2e; border-color: #2a2940; }

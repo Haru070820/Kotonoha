@@ -1,6 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import styles from './Kanji.module.css';
 import { kanjiDB } from '../data/kanjiDB';
+import { loadAllKanji, loadKanjiFromCache } from '../services/kanjiService';
+import type { KanjiByLevel } from '../services/kanjiService';
 import { useTTS } from '../hooks/useTTS';
 import { MdClose, MdVolumeUp, MdCheckCircle } from 'react-icons/md';
 
@@ -19,6 +21,12 @@ export default function Kanji() {
   const [selected, setSelected] = useState<any>(null);
   const { speak } = useTTS();
 
+  // API 데이터 상태
+  const [apiData, setApiData] = useState<KanjiByLevel | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [loadProgress, setLoadProgress] = useState({ loaded: 0, total: 0 });
+  const [dataSource, setDataSource] = useState<'local' | 'cache' | 'api'>('local');
+
   // Load done from localStorage
   useEffect(() => {
     try {
@@ -27,16 +35,57 @@ export default function Kanji() {
     } catch { /* ignore */ }
   }, []);
 
+  // 시작 시 캐시 확인 → API 호출
+  useEffect(() => {
+    const cached = loadKanjiFromCache();
+    if (cached && cached.N5.length > 0) {
+      setApiData(cached);
+      setDataSource('cache');
+    } else {
+      // 캐시 없으면 API 호출
+      fetchFromApi();
+    }
+  }, []);
+
+  const fetchFromApi = async (forceRefresh = false) => {
+    setLoading(true);
+    try {
+      const data = await loadAllKanji((loaded, total) => {
+        setLoadProgress({ loaded, total });
+      }, forceRefresh);
+      setApiData(data);
+      setDataSource('api');
+    } catch (err) {
+      console.warn('KanjiAPI 로드 실패, 로컬 데이터 사용:', err);
+      setDataSource('local');
+    }
+    setLoading(false);
+  };
+
   const saveDone = (newDone: string[]) => {
     setDone(newDone);
     localStorage.setItem('kotonoha_kanji_done', JSON.stringify(newDone));
   };
 
-  const allKanji = (kanjiDB as any)[currentLevel] || [];
+  // API 데이터가 있으면 사용, 없으면 로컬 fallback
+  const allKanji = useMemo(() => {
+    if (apiData && apiData[currentLevel] && apiData[currentLevel].length > 0) {
+      return apiData[currentLevel];
+    }
+    return (kanjiDB as any)[currentLevel] || [];
+  }, [apiData, currentLevel]);
+
+  // 총 한자 수
+  const totalKanjiCount = useMemo(() => {
+    if (apiData) {
+      return Object.values(apiData).reduce((sum, arr) => sum + arr.length, 0);
+    }
+    return 2136;
+  }, [apiData]);
 
   const filtered = useMemo(() => {
     return allKanji.filter((item: any) => {
-      const matchQ = !query || item.k.includes(query) || item.on.includes(query) || item.kun.includes(query) || item.meaning.includes(query) || (item.kr && item.kr.includes(query));
+      const matchQ = !query || item.k.includes(query) || (item.on && item.on.includes(query)) || (item.kun && item.kun.includes(query)) || (item.meaning && item.meaning.includes(query)) || (item.kr && item.kr.includes(query));
       const isDone = done.includes(item.k);
       const matchF = currentFilter === 'all' || (currentFilter === 'done' && isDone) || (currentFilter === 'undone' && !isDone);
       return matchQ && matchF;
@@ -63,10 +112,23 @@ export default function Kanji() {
     }
   };
 
-  const progressPct = ((done.length / 2136) * 100).toFixed(1);
+  const progressPct = ((done.length / totalKanjiCount) * 100).toFixed(1);
 
   return (
     <>
+      {/* 로딩 표시 */}
+      {loading && (
+        <div className={styles.loadingBar}>
+          <div className={styles.loadingInner}>
+            <span className="material-symbols-outlined" style={{ fontSize: '1.2rem', animation: 'spin 1s linear infinite' }}>sync</span>
+            KanjiAPI에서 상용한자 불러오는 중... {loadProgress.loaded}/{loadProgress.total}자
+            <div className={styles.loadingProgress}>
+              <div className={styles.loadingFill} style={{ width: loadProgress.total ? `${(loadProgress.loaded / loadProgress.total * 100)}%` : '0%' }}></div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 진행 바 */}
       <div className={styles.progressSection}>
         <div className={styles.progressInner}>
@@ -76,7 +138,7 @@ export default function Kanji() {
               <div className={styles.progLabel}>학습 완료</div>
             </div>
             <div className={styles.progStat}>
-              <div className={styles.progNum}>2,136</div>
+              <div className={styles.progNum}>{totalKanjiCount.toLocaleString()}</div>
               <div className={styles.progLabel}>상용한자 총수</div>
             </div>
             <div className={styles.progressBarWrap}>
@@ -85,6 +147,15 @@ export default function Kanji() {
               </div>
               <div className={styles.progressPct}>{progressPct}% 완료</div>
             </div>
+          </div>
+          {/* 데이터 출처 표시 */}
+          <div style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--muted)', marginTop: 6 }}>
+            {dataSource === 'api' && '✓ KanjiAPI.dev에서 불러옴'}
+            {dataSource === 'cache' && (
+              <>✓ 캐시에서 불러옴 <button onClick={() => fetchFromApi(true)} style={{ background: 'none', border: 'none', color: 'var(--accent-gold)', cursor: 'pointer', fontSize: '0.7rem', textDecoration: 'underline' }}>새로고침</button></>
+            )}
+            {dataSource === 'local' && '⚠ 로컬 데이터 사용 중'}
+            {' · '}{currentLevel}: {allKanji.length}자
           </div>
         </div>
       </div>
@@ -100,6 +171,7 @@ export default function Kanji() {
               onClick={() => switchLevel(lv)}
             >
               {lv}
+              {apiData && <span style={{ fontSize: '0.65rem', opacity: 0.7, marginLeft: 3 }}>({(apiData[lv] || []).length})</span>}
             </button>
           ))}
         </div>
@@ -129,7 +201,7 @@ export default function Kanji() {
         <div className={styles.kanjiGrid}>
           {visible.map((item: any, idx: number) => {
             const isDone = done.includes(item.k);
-            const firstOn = item.on.split('・')[0];
+            const firstOn = item.on ? item.on.split('・')[0] : '';
             return (
               <div
                 key={idx}
@@ -138,12 +210,21 @@ export default function Kanji() {
               >
                 <span className={styles.kanjiDoneMark}>✓</span>
                 <div className={styles.kanjiChar}>{item.k}</div>
-                <div className={styles.kanjiKr}>{item.kr || ''}</div>
+                <div className={styles.kanjiKr}>
+                  {item.kr ? item.kr.split('/')[0].split(',')[0].trim() : ''}
+                </div>
                 <div className={styles.kanjiOn}>{firstOn}</div>
               </div>
             );
           })}
         </div>
+
+        {/* 결과 없음 */}
+        {visible.length === 0 && !loading && (
+          <div style={{ textAlign: 'center', padding: 40, color: 'var(--muted)' }}>
+            {query ? '검색 결과가 없습니다' : '해당 한자가 없습니다'}
+          </div>
+        )}
 
         {/* 페이지네이션 */}
         {totalPages > 1 && (
@@ -168,9 +249,16 @@ export default function Kanji() {
             <button className={styles.dpClose} onClick={() => setSelected(null)}><MdClose size={22} /></button>
             <span className={styles.dpLevelBadge} style={{ background: levelColors[currentLevel] }}>{currentLevel}</span>
             <span className={styles.dpChar}>{selected.k}</span>
+            
+            {/* 한국 한자음을 한자 아래로 이동, 1개로 줄이기 */}
+            {selected.kr && (
+              <div className={styles.dpKrTitle}>
+                {selected.kr.split('/')[0].split(',')[0].trim()}
+              </div>
+            )}
 
             <div className={styles.dpSection}>
-              <div className={styles.dpLabel}>음독 · ON</div>
+              <div className={styles.dpLabel}>음독 ( 音読み )</div>
               <div className={styles.dpValue}>
                 {selected.on || '-'}
                 {selected.on && selected.on !== '-' && (
@@ -181,7 +269,7 @@ export default function Kanji() {
               </div>
             </div>
             <div className={styles.dpSection}>
-              <div className={styles.dpLabel}>훈독 · KUN</div>
+              <div className={styles.dpLabel}>훈독 ( 訓読み )</div>
               <div className={styles.dpValue}>
                 {selected.kun || '-'}
                 {selected.kun && selected.kun !== '-' && (
@@ -199,13 +287,39 @@ export default function Kanji() {
             <div className={styles.dpDivider}></div>
 
             <div className={styles.dpSection}>
-              <div className={styles.dpLabel}>한국 한자음</div>
-              <div className={styles.dpValue}>{selected.kr || '-'}</div>
+              <div className={styles.dpLabel}>뜻 · 의미</div>
+              <div className={styles.dpValue}>
+                {(() => {
+                  let meaningStr = (kanjiDB as any)[currentLevel]?.find((k: any) => k.k === selected.k)?.meaning;
+                  
+                  // 로컬 DB 의미가 없을 경우, 영어 대신 한국어 뜻(kr)에서 추출 (예: 쉴 휴 -> 쉴)
+                  if (!meaningStr && selected.kr) {
+                    const firstKr = selected.kr.split('/')[0].split(',')[0].trim();
+                    const parts = firstKr.split(' ');
+                    if (parts.length > 1) {
+                      parts.pop(); // 음(eum) 제거
+                      meaningStr = parts.join(' ');
+                    } else {
+                      meaningStr = firstKr;
+                    }
+                  }
+
+                  if (!meaningStr) return '-';
+
+                  // 콤마로 구분된 뜻 중에서 숫자가 있으면 맨 앞으로 이동
+                  const segments = meaningStr.split(',').map((s: string) => s.trim());
+                  const nums = segments.filter((p: string) => /^\d+$/.test(p));
+                  const text = segments.filter((p: string) => !/^\d+$/.test(p));
+                  return [...nums, ...text].join(', ');
+                })()}
+              </div>
             </div>
-            <div className={styles.dpSection}>
-              <div className={styles.dpLabel}>의미</div>
-              <div className={styles.dpValue}>{selected.meaning}</div>
-            </div>
+            {selected.strokes && (
+              <div className={styles.dpSection}>
+                <div className={styles.dpLabel}>획수</div>
+                <div className={styles.dpValue}>{selected.strokes}획</div>
+              </div>
+            )}
 
             <button
               className={`${styles.dpDoneBtn} ${done.includes(selected.k) ? styles.active : ''}`}

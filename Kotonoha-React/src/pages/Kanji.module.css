@@ -94,7 +94,11 @@
 }
 .dpChar {
   font-family: 'Noto Serif JP', serif; font-size: 5rem; font-weight: 900;
-  color: var(--font); text-align: center; display: block; margin: 16px 0;
+  color: var(--font); text-align: center; display: block; margin: 16px 0 0 0;
+}
+.dpKrTitle {
+  text-align: center; font-size: 1.1rem; font-weight: bold; color: #a08060;
+  font-family: 'Noto Sans KR', sans-serif; margin-bottom: 24px; margin-top: -4px;
 }
 .dpSection { margin-bottom: 16px; }
 .dpLabel {
@@ -128,6 +132,23 @@
 }
 .pageBtn:hover { background: var(--paper-warm); }
 .pageBtn.active { background: var(--ink); color: var(--accent-gold); border-color: var(--ink); }
+
+/* ── 로딩 바 ── */
+.loadingBar {
+  background: var(--ink); padding: 14px 24px; text-align: center;
+  color: var(--accent-gold); font-size: 0.85rem; font-weight: 600;
+}
+.loadingInner { max-width: 500px; margin: 0 auto; }
+.loadingProgress {
+  margin-top: 8px; background: rgba(255,255,255,0.15); border-radius: 10px;
+  height: 6px; overflow: hidden;
+}
+.loadingFill {
+  height: 100%; background: var(--accent-gold); border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 /* ── 다크모드 ── */
 :global(body.dark) .progressSection { background: #1c1b2e; border-color: #2a2940; }

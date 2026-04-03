@@ -1,33 +1,44 @@
 import { Link, useLocation } from 'react-router-dom';
-import { MdHome, MdMenuBook, MdQuiz, MdForum, MdSettings, MdClose } from 'react-icons/md';
-import { useState } from 'react';
+import { MdHome, MdTranslate, MdSchool, MdMenuBook, MdMusicNote, MdSettings, MdClose } from 'react-icons/md';
+import { useState, useEffect } from 'react';
 import './Header.css';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Close sidebar on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  // ESC key to close
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
+  // Prevent body scroll when sidebar open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
-
   const isActive = (path: string) => location.pathname === path ? 'active' : '';
-
-  const navLinks = [
-    { to: '/', title: '홈', icon: <MdHome /> },
-    { to: '/study', title: '학습', icon: <MdMenuBook /> },
-    { to: '/jlpt', title: 'JLPT (의사)', icon: <MdQuiz /> },
-    { to: '/community', title: '커뮤니티', icon: <MdForum /> },
-  ];
 
   return (
     <>
       <header>
         <div className="header-left">
-          <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+          <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={toggleMenu} aria-label="메뉴">
             <span></span>
             <span></span>
             <span></span>
           </button>
-          
           <Link to="/" className="logo">
             <div className="logo-jp">言の葉</div>
             <div className="logo-kr">kotonoha</div>
@@ -36,18 +47,23 @@ export default function Header() {
 
         <nav className="header-nav">
           <Link to="/" className={isActive('/')}>홈</Link>
-          <Link to="/community" className={isActive('/community')}>커뮤니티</Link>
-          <Link to="/settings" className={isActive('/settings')} style={{ opacity: 0.7, fontSize: '1rem', padding: '6px 10px' }}>
-            <MdSettings style={{ verticalAlign: 'middle' }}/>
+          <Link
+            to="/community"
+            className={isActive('/community')}
+            style={{ color: 'var(--muted)', pointerEvents: 'none', cursor: 'default' }}
+            title="현재 준비 중입니다"
+          >커뮤니티</Link>
+          <Link to="/settings" className={isActive('/settings')} style={{ opacity: 0.7, padding: '6px 10px', display: 'flex', alignItems: 'center' }} title="설정">
+            <MdSettings size={18} />
           </Link>
         </nav>
       </header>
 
       {/* Sidebar Overlay */}
-      <div 
-        className={`sidebar-overlay ${menuOpen ? 'open' : ''}`} 
+      <div
+        className={`sidebar-overlay ${menuOpen ? 'open' : ''}`}
         onClick={() => setMenuOpen(false)}
-      ></div>
+      />
 
       {/* Slide Sidebar */}
       <nav className={`slide-sidebar ${menuOpen ? 'open' : ''}`}>
@@ -62,21 +78,32 @@ export default function Header() {
         </div>
 
         <div className="sb-nav">
-          {navLinks.map((link) => (
-            <Link key={link.to} to={link.to} className={isActive(link.to)} onClick={() => setMenuOpen(false)}>
-              <span className="sb-icon">{link.icon}</span>
-              {link.title}
-            </Link>
-          ))}
+          <Link to="/" className={isActive('/')} onClick={() => setMenuOpen(false)}>
+            <span className="sb-icon"><MdHome /></span>홈
+          </Link>
+          <Link to="/kana" className={isActive('/kana')} onClick={() => setMenuOpen(false)}>
+            <span className="sb-icon"><MdTranslate /></span>가나
+          </Link>
+          <Link to="/jlpt" className={isActive('/jlpt')} onClick={() => setMenuOpen(false)}>
+            <span className="sb-icon"><MdSchool /></span>JLPT
+          </Link>
+          <Link to="/kanji" className={isActive('/kanji')} onClick={() => setMenuOpen(false)}>
+            <span className="sb-icon"><MdMenuBook /></span>한자
+          </Link>
+          <Link to="/player" className={location.pathname.startsWith('/player') ? 'active' : ''} onClick={() => setMenuOpen(false)}>
+            <span className="sb-icon"><MdMusicNote /></span>가사 학습
+          </Link>
+          <Link to="/grammar" className={isActive('/grammar')} onClick={() => setMenuOpen(false)}>
+            <span className="sb-icon"><MdSchool /></span>문법 배우기
+          </Link>
           <div className="sb-divider"></div>
           <Link to="/settings" className={isActive('/settings')} onClick={() => setMenuOpen(false)}>
-            <span className="sb-icon"><MdSettings /></span>
-            설정
+            <span className="sb-icon"><MdSettings /></span>설정
           </Link>
         </div>
 
         <div className="sb-footer">
-          © 2026 Kotonoha App
+          言の葉 코토노하 v2
         </div>
       </nav>
     </>
